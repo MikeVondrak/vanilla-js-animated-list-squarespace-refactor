@@ -215,7 +215,17 @@ body {
   opacity: 1;
 }
 
-.animated-list-item-0 {
+.animated-list-item:nth-child(3n + 0) {
+  background-color: #facccc;
+}
+.animated-list-item:nth-child(3n + 1) {
+  background-color: #ccfacc;
+}
+.animated-list-item:nth-child(3n + 2) {
+  background-color: #ccccfa;
+}
+
+/* .animated-list-item-0 {
   background-color: #facccc;
 }
 .animated-list-item-1 {
@@ -229,4 +239,4 @@ body {
 }
 .animated-list-item-4 {
   background-color: #faccfa;
-}
+} */

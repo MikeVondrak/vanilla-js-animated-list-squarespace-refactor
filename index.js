@@ -17,104 +17,103 @@ class AnimatedProjectList {
   };
 
   // define the projects that will be displayed in the list
-  imgSrcUrl = "https://blue-helicon-3bfm.squarespace.com/";
   projectList = [
     {
       selector: "WynkoopAlley",
       title: "Wynkoop Alley",
       url: "/projects/wynkoop-alley",
-      imgSrc: this.imgSrcUrl + "s/tile-wynkoop-alley.png",
+      imgSrc: "tile-wynkoop-alley.png",
       tags: ["a", "b", "i", "p"]
     },
     {
       selector: "CohesionBrewing",
       title: "Cohesion Brewing",
       url: "/projects/cohesion-brewing",
-      imgSrc: this.imgSrcUrl + "s/tile-cohesion-brewing.gif",
+      imgSrc: "tile-cohesion-brewing.gif",
       tags: ["a", "b", "p"]
     },
     {
       selector: "NorthWynkoop",
       title: "North Wynkoop",
       url: "/projects/north-wynkoop",
-      imgSrc: this.imgSrcUrl + "s/tile-north-wynkoop.jpg",
+      imgSrc: "tile-north-wynkoop.jpg",
       tags: ["a", "b", "u", "p"]
     },
     {
       selector: "Guava",
       title: "Guava",
       url: "/projects/guava",
-      imgSrc: this.imgSrcUrl + "s/tile-guava.gif",
+      imgSrc: "tile-guava.gif",
       tags: ["a", "b", "i"]
     },
     {
       selector: "Nod",
       title: "Nod",
       url: "/projects/nod",
-      imgSrc: this.imgSrcUrl + "s/tile-nod.jpg",
+      imgSrc: "tile-nod.jpg",
       tags: ["a", "i", "p"]
     },
     {
       selector: "HappyBikes",
       title: "Happy Bikes",
       url: "/projects/happy-bikes",
-      imgSrc: this.imgSrcUrl + "s/tile-happy-bikes.jpg",
+      imgSrc: "tile-happy-bikes.jpg",
       tags: ["a", "i", "p"]
     },
     {
       selector: "KnottyTieConfigurator",
       title: "Knotty Tie Configurator",
       url: "/projects/knotty-tie-configurator",
-      imgSrc: this.imgSrcUrl + "s/tile-knotty-tie-configurator.jpg",
+      imgSrc: "tile-knotty-tie-configurator.jpg",
       tags: ["a", "u"]
     },
     {
       selector: "EatItUp",
       title: "Eat it Up!",
       url: "/projects/eat-it-up",
-      imgSrc: this.imgSrcUrl + "s/tile-eat-it-up.jpg",
+      imgSrc: "tile-eat-it-up.jpg",
       tags: ["a", "i", "k"]
     },
     {
       selector: "KnottyTieRebrand",
       title: "Knotty Tie Rebrand",
       url: "/projects/knotty-tie-rebrand",
-      imgSrc: this.imgSrcUrl + "s/tile-knotty-tie-rebrand.jpg",
+      imgSrc: "tile-knotty-tie-rebrand.jpg",
       tags: ["a", "b", "i", "u"]
     },
     {
       selector: "SpectrumIllustrationRebrand",
       title: "Spectrum Illustration Rebrand",
       url: "/projects/spectrum-illustration-rebrand",
-      imgSrc: this.imgSrcUrl + "s/tile-spectrum-illustration-rebrand.png",
+      imgSrc: "tile-spectrum-illustration-rebrand.png",
       tags: ["a", "b", "i"]
     },
     {
       selector: "SpectrumUxUi",
       title: "Spectrum UX / UI",
       url: "/projects/spectrum-ux-ui",
-      imgSrc: this.imgSrcUrl + "s/tile-spectrum-ux-ui.jpg",
+      imgSrc: "tile-spectrum-ux-ui.jpg",
       tags: ["a", "b", "u"]
     },
     {
       selector: "ACuriousHarvest",
       title: "A Curious Harvest",
       url: "/projects/a-curious-harvest",
-      imgSrc: this.imgSrcUrl + "s/tile-a-curious-harvest.jpg",
+      imgSrc: "tile-a-curious-harvest.jpg",
       tags: ["a", "k", "i"]
     },
     {
       selector: "HomeRemedy",
       title: "Home Remedy",
       url: "/projects/home-remedy",
-      imgSrc: this.imgSrcUrl + "s/tile-home-remedy.png",
+      imgSrc: "tile-home-remedy.png",
       tags: ["a", "i", "k"]
     },
     {
       selector: "TheDailyVegan",
       title: "The Daily Vegan",
       url: "/projects/the-daily-vegan",
-      imgSrc: this.imgSrcUrl + "s/tile-the-daily-vegan.gif",
+      imgSrc: "tile-the-daily-vegan.gif",
       tags: ["a", "k", "i"]
     }
   ];
@@ -134,37 +133,29 @@ class AnimatedProjectList {
     { name: "hd", size: 1440, cols: 5 }
   ];
 
-  cssVariableNames = {
-    numberOfProjects: "--number-of-projects",
-    projectListPadding: "--project-list-padding",
-    projectItemHeight: "--project-item-height",
-    projectItemGutter: "--project-item-gutter",
-    fadeTime: "--fade-time",
-    transformTime: "--transform-time"
-  };
+  imgSrcBaseUrl = "https://blue-helicon-3bfm.squarespace.com/"; // overridden by CSS variable
+  imgSrcUrlJoiner = "s/"; // path where Squarespace stores uploaded images
 
+  // TODO: combine these into an object array?
+  cssVariableNames = {
+    baseUrl: "--base-url",
+    projectListPadding: "--project-list-padding",
+    projectItemGutter: "--project-item-gutter",
+    animationTime: "--animation-time"
+  };
   cssVariables = {
-    numberOfProjects: 0,
+    baseUrl: "",
     projectListPadding: "",
-    projectItemHeight: "",
     projectItemGutter: "",
-    fadeTime: 0,
-    transformTime: 0
+    animationTime: 0
   };
 
   htmlIds = {
     app: "Animated-Project-List",
     list: "Animated-List",
-    filters: "List-Filters",
-    settings: "Animation-Settings",
-    settingsPanel: "Animation-Settings-Panel",
-    inputItemHeight: "Input-Item-Height",
-    inputItemHeightUnit: "Input-Item-Height-Unit",
-    inputItemsPerRow: "Input-Items-Per-Row"
+    filters: "List-Filters"
   };
-  htmlNames = {
-    itemHeightUnit: "Item-Height-Unit-Radio"
-  };
+  htmlNames = {};
   cssClasses = {
     list: "animated-list",
     item: "animated-list-item",
@@ -199,14 +190,15 @@ class AnimatedProjectList {
    */
   listState = {
     listWidth: 0,
-    numberOfColumns: 0,
-    columnWidth: 0,
+    listInnerWidth: 0,
+    listPadding: 0,
+    itemSize: 0, // only handles square items for now
+    itemGutter: 0,
     gridCoords: [{ x: 0, y: 0 }],
+    numColumns: 0,
+    numRows: 0,
     fitToScreen: false,
-    currentTag: "a",
-
-    columnCoordsX: [],
-    column2Pos: 0
+    currentTag: "a"
   };
 
   // *********************************************************
@@ -218,17 +210,16 @@ class AnimatedProjectList {
   constructor() {
     this.initialize();
 
-    //this.generateDisplayList();
+    this.calcBreakpoint();
     this.constructGrid();
     this.renderGrid();
+    this.updateListHeight();
 
     // adjust height of list container
     //this.updateListHeight();
 
     //this.sortProjectsByTag("a");
     //this.handleResize();
-
-    //this.calcBreakpoint();
   }
 
   /**
@@ -326,7 +317,12 @@ class AnimatedProjectList {
   populateListItemBgs() {
     this.projectList.forEach(project => {
       let el = document.getElementById(project.selector);
-      el.style.backgroundImage = "url(" + project.imgSrc + ")";
+      el.style.backgroundImage =
+        "url(" +
+        this.imgSrcBaseUrl +
+        this.imgSrcUrlJoiner +
+        project.imgSrc +
+        ")";
     });
   }
   /**
@@ -385,31 +381,6 @@ class AnimatedProjectList {
       }, this.throttleTime);
     }
   }
-  /**
-   *
-   * TODO: REFACTOR
-   *
-   */
-  setColumnsPerBreakpoint() {
-    if (
-      this.displayList &&
-      this.displayList.length < this.currentBreakpoint.cols
-    ) {
-      this.perRow = this.displayList.length ? this.displayList.length : 1;
-      //this.renderDisplayList();
-      const h = this.getListItemHeightSquare();
-      console.log("+++++++++ new item height: " + h);
-      this.setItemsHeight(h, "px");
-    } else {
-      console.log(
-        "+++++++++ items > perRow: " +
-          this.displayList.length +
-          " " +
-          this.perRow
-      );
-      this.perRow = this.currentBreakpoint.cols;
-    }
-  }
 
   /**
    * Set breakpoint for current screen width and return true if changed
@@ -418,8 +389,7 @@ class AnimatedProjectList {
     let breakpointChanged = false;
     const winWidth = window.innerWidth;
     if (!this.breakpoints || !Array.isArray(this.breakpoints)) {
-      debugger;
-      return;
+      throw new Error("breakpoints missing or not an array");
     }
     this.breakpoints.forEach(bp => {
       if (winWidth >= bp.size) {
@@ -438,18 +408,14 @@ class AnimatedProjectList {
    * Construct grid based on displayed items
    */
   constructGrid() {
-    debugger;
     const itemGutter = parseInt(this.cssVariables.projectItemGutter);
     const listPadding = parseInt(this.cssVariables.projectListPadding);
-    const listInnerWidth = this.listEl.width - listPadding * 2;
+    const listWidth = this.listEl.clientWidth;
+    const listInnerWidth = listWidth - listPadding * 2;
     const numCols = this.currentBreakpoint.cols;
     const numItems = this.displayList.length;
-    const numGutters = numItems - 1;
+    const numGutters = numCols - 1;
     const size = (listInnerWidth - itemGutter * numGutters) / numCols;
-
-    // TODO: need these?
-    this.listState.numberOfColumns = numCols;
-    this.listState.columnWidth = size;
 
     // calculate the x,y coordinates of each item in the list
     let i = 0,
@@ -462,74 +428,39 @@ class AnimatedProjectList {
       }
       row++;
     }
+    this.listState.numColumns = numCols;
+    this.listState.numRows = row;
+    this.listState.itemSize = size;
+    this.listState.itemGutter = itemGutter;
+    this.listState.listPadding = listPadding;
+    this.listState.listWidth = listWidth;
+    this.listState.listInnerWidth = listInnerWidth;
   }
 
   /**
    * Render grid item markup
    */
   renderGrid() {
-    console.log("Rendering Grid");
-    this.listState.gridCoords.forEach(coordPair => {
-      console.log(coordPair);
+    this.displayList.forEach((project, idx) => {
+      const el = document.getElementById(project.selector);
+      const coords = this.listState.gridCoords[idx];
+      let transformMatrix = this.getValuesFromTransformMatrix(el);
+
+      el.style.display = "flex";
+      el.style.width = this.listState.itemSize + "px";
+      el.style.height = this.listState.itemSize + "px";
+      transformMatrix.tx = coords.x.toString();
+      transformMatrix.ty = coords.y.toString();
+      transformMatrix.scaleX = 1;
+      transformMatrix.scaleY = 1;
+
+      this.setCssTransform(el, transformMatrix);
     });
   }
 
-  // getListState() {
-  //   const columnGutter = parseInt(this.cssVariables.projectItemGutter);
-  //   const curStyle = window.getComputedStyle(this.listEl);
-  //   const listPadding = parseInt(curStyle.paddingLeft);
-  //   const listWidth = parseInt(curStyle.width) - listPadding * 2;
-  //   const columnWidth =
-  //     (listWidth - columnGutter * (this.perRow - 1)) / this.perRow;
-
-  //   // leftmost element starts at 0, fill in X coordinates of columns based on number per row
-  //   const columnXPos = [0];
-  //   for (let i = 1; i < this.perRow; i++) {
-  //     let colPos = columnWidth * i + columnGutter * i;
-  //     columnXPos.push(colPos);
-  //   }
-  //   this.listState = {
-  //     listWidth: listWidth,
-  //     columnWidth: columnWidth,
-  //     column2Pos: columnWidth + columnGutter,
-  //     columnCoordsX: columnXPos
-  //   };
-  // }
-
-  // setupColumnPropertiesForRow(el, idx, transformMatrix, rowCounter) {
-  //   // every third project takes up 2 columns, all others 1
-  //   if (this.alternatingRows && (idx + 1) % 3 === 0) {
-  //     el.style.width = this.listState.listWidth + "px";
-  //     rowCounter++;
-  //   } else {
-  //     el.style.width = this.listState.columnWidth + "px";
-
-  //     // TODO: support setting static height vs calc??
-  //     el.style.height = this.getListItemHeightSquare() + "px";
-
-  //     // move element to next row
-  //     const colIdx = idx % this.perRow;
-  //     //debugger;
-  //     transformMatrix.tx = this.listState.columnCoordsX[colIdx];
-  //     if ((idx + 1) % this.perRow === 0) {
-  //       rowCounter++;
-  //     }
-  //   }
-  //   return rowCounter;
-  // }
-
-  // getCurrentListItemHeightPx() {
-  //   const itemStyle = this.getListItemStyle();
-  //   return parseInt(itemStyle.height);
-  // }
-
-  // getListItemHeightSquare() {
-  //   const itemStyle = this.getListItemStyle();
-  //   const itemWidth = itemStyle.width;
-  //   console.log("%%%%%%%%%%%%% item width: " + itemWidth);
-  //   return parseInt(itemWidth);
-  // }
-
+  /**
+   * REFACTOR
+   */
   renderDisplayList() {
     this.getListState();
     let rowCounter = 0;
@@ -564,7 +495,13 @@ class AnimatedProjectList {
     });
   }
 
-  // filter the list of projects based on what tags they're identified with
+  /**
+   * filter the list of projects based on what tags they're identified with
+   *
+   *
+   * TODO: REFACTOR
+   *
+   */
   sortProjectsByTag(tag = "a") {
     this.currentTag = tag;
 
@@ -628,12 +565,10 @@ class AnimatedProjectList {
    * Get last element in display list and calculate height of list parent container
    */
   updateListHeight() {
-    const lastItemIdx = this.displayList.length - 1;
-    const lastItemEl = this.getListItemEl(lastItemIdx);
-    const listPadding = parseInt(this.cssVariables.projectListPadding);
-    const offsetY = this.lastItemEl.offsetHeight - this.listEl.offsetHeight;
-    const height = offsetY + lastItemEl.height + listPadding;
-
+    const numGutters = this.listState.numRows - 1;
+    const rowsSize = this.listState.itemSize * this.listState.numRows;
+    const guttersSize = this.listState.itemGutter * numGutters;
+    const height = rowsSize + guttersSize + this.listState.listPadding * 2;
     this.listEl.style.height = height.toString() + "px";
   }
 
