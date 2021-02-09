@@ -15,6 +15,15 @@ body {
 }
 
 body {
+  /* NOTE: this needs to match the site URL so images will load in the items */
+  --base-url: "https://blue-helicon-3bfm.squarespace.com/";
+
+  /* NOTE: do not use rem units, code side doesn't handle */
+  --project-list-padding: 20px;
+  --project-item-gutter: 20px;
+
+  --animation-time: 0.5s;
+
   --color-orange: #fd8e17;
   --color-orange-lt: #ffa832;
   --color-orange-dk: #ed6e08;
@@ -25,18 +34,6 @@ body {
   --color-black: #333;
 
   --color-list-bg: var(--color-black);
-
-  --number-of-projects: 5;
-
-  --project-list-padding: 16px; /* NOTE: do not use rem units, code side doesn't handle */
-  --project-item-height: 400px;
-  --project-item-gutter: 20px;
-
-  --fade-time: 500; /* in ms, used by js code */
-  --fade-time-s: 0.5s;
-  --transform-time: 0.5s;
-
-  --base-url: "https://blue-helicon-3bfm.squarespace.com/";
 
   background-color: var(--color-white);
 }
@@ -123,7 +120,7 @@ body {
     var(--color-gray-md) 20px
   );
 
-  transition: height var(--fade-time-s) ease-out;
+  transition: height var(--animation-time) ease-out;
 }
 #Animation-Settings-Panel.expanded {
   height: 80px;
@@ -168,7 +165,7 @@ body {
   padding: var(--project-list-padding);
   background: var(--color-list-bg);
 
-  transition: height var(--transform-time) ease;
+  transition: height var(--animation-time) ease;
 }
 .animated-list-item {
   position: absolute;
@@ -184,8 +181,8 @@ body {
   background-position: center;
   background-size: cover;
 
-  transition: width var(--transform-time) ease,
-    transform var(--transform-time) ease, opacity var(--transform-time) ease;
+  transition: width var(--animation-time) ease,
+    transform var(--animation-time) ease, opacity var(--animation-time) ease;
 
   box-shadow: 1px 1px 5px #000;
 }
@@ -197,7 +194,7 @@ body {
   width: 100%;
   height: 100%;
   background-color: transparent;
-  transition: background-color var(--transform-time) ease;
+  transition: background-color var(--animation-time) ease;
 }
 .animated-list-item a:hover {
   background-color: rgba(0, 0, 0, 0.75);
@@ -212,7 +209,7 @@ body {
   border-radius: 0.25rem;
   text-shadow: 1px 1px 1px #fff;
 
-  transition: opacity var(--fade-time-s) ease;
+  transition: opacity var(--animation-time) ease;
 }
 .animated-list-item a:hover > * {
   opacity: 1;

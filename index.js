@@ -199,9 +199,9 @@ class AnimatedProjectList {
    */
   listState = {
     listWidth: 0,
-    numberOfColumns,
+    numberOfColumns: 0,
     columnWidth: 0,
-    gridCoords: [[0, 0]],
+    gridCoords: [{ x: 0, y: 0 }],
     fitToScreen: false,
     currentTag: "a",
 
@@ -218,17 +218,17 @@ class AnimatedProjectList {
   constructor() {
     this.initialize();
 
-    this.generateDisplayList();
+    //this.generateDisplayList();
     this.constructGrid();
+    this.renderGrid();
 
     // adjust height of list container
-    this.updateListHeight();
+    //this.updateListHeight();
 
     //this.sortProjectsByTag("a");
-    this.handleResize();
-    this.updateSettingsValues();
+    //this.handleResize();
 
-    this.calcBreakpoint();
+    //this.calcBreakpoint();
   }
 
   /**
@@ -340,7 +340,7 @@ class AnimatedProjectList {
         const tag = Object.keys(this.projectTags).find(key => key === btn.id);
         const tagId = this.projectTags[tag];
         this.updateFilterButtonState(btn.id);
-        this.sortProjectsByTag(tagId);
+        //this.sortProjectsByTag(tagId);
       });
     });
 
@@ -372,9 +372,11 @@ class AnimatedProjectList {
    */
   handleResize() {
     if (!this.throttled) {
-      this.calcBreakpoint();
-      this.setColumnsPerBreakpoint();
-      this.sortProjectsByTag(this.currentTag);
+      if (this.calcBreakpoint()) {
+        console.log("Recalculate number of columns for new breakpoint");
+        // this.setColumnsPerBreakpoint();
+      }
+      //this.sortProjectsByTag(this.currentTag);
 
       this.throttled = true;
       setTimeout(() => {
@@ -410,9 +412,10 @@ class AnimatedProjectList {
   }
 
   /**
-   * Set breakpoint for current screen width
+   * Set breakpoint for current screen width and return true if changed
    */
   calcBreakpoint() {
+    let breakpointChanged = false;
     const winWidth = window.innerWidth;
     if (!this.breakpoints || !Array.isArray(this.breakpoints)) {
       debugger;
@@ -420,6 +423,7 @@ class AnimatedProjectList {
     }
     this.breakpoints.forEach(bp => {
       if (winWidth >= bp.size) {
+        breakpointChanged = this.currentBreakpoint.name === bp.name;
         this.currentBreakpoint = bp;
       }
     });
@@ -427,76 +431,104 @@ class AnimatedProjectList {
       "*********** WIDTH:" + winWidth + ", CURRENT BREAKPOINT: ",
       this.currentBreakpoint
     );
+    return breakpointChanged;
   }
 
   /**
    * Construct grid based on displayed items
    */
   constructGrid() {
+    debugger;
     const itemGutter = parseInt(this.cssVariables.projectItemGutter);
     const listPadding = parseInt(this.cssVariables.projectListPadding);
-    const lastItemIdx = this.displayList.length - 1;
     const listInnerWidth = this.listEl.width - listPadding * 2;
     const numCols = this.currentBreakpoint.cols;
-    const numGutters = this.displayList.length - 1;
+    const numItems = this.displayList.length;
+    const numGutters = numItems - 1;
     const size = (listInnerWidth - itemGutter * numGutters) / numCols;
-  }
 
-  getListState() {
-    const columnGutter = parseInt(this.cssVariables.projectItemGutter);
-    const curStyle = window.getComputedStyle(this.listEl);
-    const listPadding = parseInt(curStyle.paddingLeft);
-    const listWidth = parseInt(curStyle.width) - listPadding * 2;
-    const columnWidth =
-      (listWidth - columnGutter * (this.perRow - 1)) / this.perRow;
+    // TODO: need these?
+    this.listState.numberOfColumns = numCols;
+    this.listState.columnWidth = size;
 
-    // leftmost element starts at 0, fill in X coordinates of columns based on number per row
-    const columnXPos = [0];
-    for (let i = 1; i < this.perRow; i++) {
-      let colPos = columnWidth * i + columnGutter * i;
-      columnXPos.push(colPos);
-    }
-    this.listState = {
-      listWidth: listWidth,
-      columnWidth: columnWidth,
-      column2Pos: columnWidth + columnGutter,
-      columnCoordsX: columnXPos
-    };
-  }
-
-  setupColumnPropertiesForRow(el, idx, transformMatrix, rowCounter) {
-    // every third project takes up 2 columns, all others 1
-    if (this.alternatingRows && (idx + 1) % 3 === 0) {
-      el.style.width = this.listState.listWidth + "px";
-      rowCounter++;
-    } else {
-      el.style.width = this.listState.columnWidth + "px";
-
-      // TODO: support setting static height vs calc??
-      el.style.height = this.getListItemHeightSquare() + "px";
-
-      // move element to next row
-      const colIdx = idx % this.perRow;
-      //debugger;
-      transformMatrix.tx = this.listState.columnCoordsX[colIdx];
-      if ((idx + 1) % this.perRow === 0) {
-        rowCounter++;
+    // calculate the x,y coordinates of each item in the list
+    let i = 0,
+      row = 0;
+    while (i < numItems) {
+      for (let j = 0; j < numCols; j++) {
+        let inc = size + itemGutter;
+        this.listState.gridCoords[i] = { x: j * inc, y: row * inc };
+        i++;
       }
+      row++;
     }
-    return rowCounter;
   }
 
-  getCurrentListItemHeightPx() {
-    const itemStyle = this.getListItemStyle();
-    return parseInt(itemStyle.height);
+  /**
+   * Render grid item markup
+   */
+  renderGrid() {
+    console.log("Rendering Grid");
+    this.listState.gridCoords.forEach(coordPair => {
+      console.log(coordPair);
+    });
   }
 
-  getListItemHeightSquare() {
-    const itemStyle = this.getListItemStyle();
-    const itemWidth = itemStyle.width;
-    console.log("%%%%%%%%%%%%% item width: " + itemWidth);
-    return parseInt(itemWidth);
-  }
+  // getListState() {
+  //   const columnGutter = parseInt(this.cssVariables.projectItemGutter);
+  //   const curStyle = window.getComputedStyle(this.listEl);
+  //   const listPadding = parseInt(curStyle.paddingLeft);
+  //   const listWidth = parseInt(curStyle.width) - listPadding * 2;
+  //   const columnWidth =
+  //     (listWidth - columnGutter * (this.perRow - 1)) / this.perRow;
+
+  //   // leftmost element starts at 0, fill in X coordinates of columns based on number per row
+  //   const columnXPos = [0];
+  //   for (let i = 1; i < this.perRow; i++) {
+  //     let colPos = columnWidth * i + columnGutter * i;
+  //     columnXPos.push(colPos);
+  //   }
+  //   this.listState = {
+  //     listWidth: listWidth,
+  //     columnWidth: columnWidth,
+  //     column2Pos: columnWidth + columnGutter,
+  //     columnCoordsX: columnXPos
+  //   };
+  // }
+
+  // setupColumnPropertiesForRow(el, idx, transformMatrix, rowCounter) {
+  //   // every third project takes up 2 columns, all others 1
+  //   if (this.alternatingRows && (idx + 1) % 3 === 0) {
+  //     el.style.width = this.listState.listWidth + "px";
+  //     rowCounter++;
+  //   } else {
+  //     el.style.width = this.listState.columnWidth + "px";
+
+  //     // TODO: support setting static height vs calc??
+  //     el.style.height = this.getListItemHeightSquare() + "px";
+
+  //     // move element to next row
+  //     const colIdx = idx % this.perRow;
+  //     //debugger;
+  //     transformMatrix.tx = this.listState.columnCoordsX[colIdx];
+  //     if ((idx + 1) % this.perRow === 0) {
+  //       rowCounter++;
+  //     }
+  //   }
+  //   return rowCounter;
+  // }
+
+  // getCurrentListItemHeightPx() {
+  //   const itemStyle = this.getListItemStyle();
+  //   return parseInt(itemStyle.height);
+  // }
+
+  // getListItemHeightSquare() {
+  //   const itemStyle = this.getListItemStyle();
+  //   const itemWidth = itemStyle.width;
+  //   console.log("%%%%%%%%%%%%% item width: " + itemWidth);
+  //   return parseInt(itemWidth);
+  // }
 
   renderDisplayList() {
     this.getListState();
