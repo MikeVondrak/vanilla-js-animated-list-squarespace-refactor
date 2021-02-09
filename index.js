@@ -821,6 +821,9 @@ class AnimatedProjectList {
     }
   }
 
+  /**
+   * Set breakpoint for current screen width
+   */
   calcBreakpoint() {
     const winWidth = window.innerWidth;
     if (!this.breakpoints || !Array.isArray(this.breakpoints)) {
@@ -838,79 +841,9 @@ class AnimatedProjectList {
     );
   }
 
-  toggleSettingsPanel() {
-    if (this.settingsShowing) {
-      this.settingsPanelEl.classList.remove("expanded");
-      setTimeout(() => {
-        this.settingsPanelEl.style.display = "none";
-        this.settingsShowing = false;
-      }, this.cssVariables.fadeTime);
-    } else {
-      this.settingsPanelEl.style.display = "block";
-      this.settingsShowing = true;
-      setTimeout(() => {
-        this.settingsPanelEl.classList.add("expanded");
-      }, 10);
-    }
-  }
-
-  updateSettingsValues() {
-    // get the current item style
-    const projectTileItem = document.getElementsByClassName(
-      this.cssClasses.item
-    )[0];
-    const istyle = projectTileItem.style.height;
-    const itemStyles = window.getComputedStyle(projectTileItem);
-    let itemHeight = itemStyles.getPropertyValue("height");
-    // parse value and units from height string
-    let heightVal = parseInt(itemHeight);
-    let heightUnit = itemHeight.match(/\D+$/)[0]; // get the existing unit
-
-    const inputs = this.settingsPanelEl.getElementsByTagName("input");
-    for (let input of inputs) {
-      switch (input.id) {
-        case this.htmlIds.inputItemHeight:
-          input.value = heightVal;
-          break;
-      }
-    }
-  }
-
-  itemHeightChanged(event) {
-    const heightInput = document.getElementById(this.htmlIds.inputItemHeight);
-    const newHeightValue = heightInput.value; //event.target.value;
-    const inputs = this.settingsPanelEl.getElementsByTagName("input");
-    let selectedUnit;
-
-    for (let input of inputs) {
-      if (input.checked) {
-        selectedUnit = input.value;
-      }
-    }
-    this.cssVariables.projectItemHeight = newHeightValue + selectedUnit;
-    this.setItemsHeight(newHeightValue, selectedUnit);
-    this.sortProjectsByTag(this.currentTag);
-  }
-
-  setItemsHeight(height, unit) {
-    const projectTileItems = document.getElementsByClassName(
-      this.cssClasses.item
-    );
-    for (let item of projectTileItems) {
-      item.style.height = height + unit;
-    }
-  }
-
-  itemHeightUnitChanged(event) {
-    this.itemHeightChanged(event);
-  }
-
-  projectsPerRowChange(event) {
-    const perRowInput = document.getElementById(this.htmlIds.inputItemsPerRow);
-    this.perRow = parseInt(perRowInput.value) || 0;
-    this.sortProjectsByTag(this.currentTag);
-  }
-
+  /**
+   * Helper function to generate HTML elements
+   */
   generateElement(
     tag,
     attributes = "",
@@ -961,7 +894,9 @@ class AnimatedProjectList {
 }
 
 // *********************************************************
-// Initialization
+// *********************************************************
+// *********************************************************
+// App Initialization
 console.log("Initialzing...");
 var mainApp;
 
