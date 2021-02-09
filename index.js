@@ -174,7 +174,7 @@ class AnimatedProjectList {
   // vars
   // *********************************************************
   throttled = false;
-  throttleTime = 20;
+  throttleTime = 250;
   currentBreakpoint = this.breakpoints.find(bp => bp.name === "xs");
   displayList = [];
 
@@ -211,9 +211,8 @@ class AnimatedProjectList {
     this.initialize();
 
     this.calcBreakpoint();
-    this.constructGrid();
-    this.renderGrid();
-    this.updateListHeight();
+
+    this.refreshGrid();
 
     // adjust height of list container
     //this.updateListHeight();
@@ -257,6 +256,9 @@ class AnimatedProjectList {
     for (const prop in this.cssVariableNames) {
       const cssVarName = this.cssVariableNames[prop];
       this.cssVariables[prop] = bodyStyles.getPropertyValue(cssVarName).trim();
+      if (prop === "animationTime") {
+        this.cssVariables[prop] = parseFloat(this.cssVariables[prop]) * 1000;
+      }
     }
   }
   /**
@@ -361,18 +363,16 @@ class AnimatedProjectList {
   /**
    * Recalculate grid on window resize
    *
-   *
-   * TODO: REFACTOR
-   *
+   * TODO: FIX THIS - not always sizing properly (scrollbars?)
    *
    */
   handleResize() {
     if (!this.throttled) {
+      this.refreshGrid();
       if (this.calcBreakpoint()) {
         console.log("Recalculate number of columns for new breakpoint");
-        // this.setColumnsPerBreakpoint();
+        this.refreshGrid();
       }
-      //this.sortProjectsByTag(this.currentTag);
 
       this.throttled = true;
       setTimeout(() => {
@@ -391,17 +391,31 @@ class AnimatedProjectList {
     if (!this.breakpoints || !Array.isArray(this.breakpoints)) {
       throw new Error("breakpoints missing or not an array");
     }
+    const prevBp = this.currentBreakpoint.name;
     this.breakpoints.forEach(bp => {
       if (winWidth >= bp.size) {
-        breakpointChanged = this.currentBreakpoint.name === bp.name;
         this.currentBreakpoint = bp;
       }
     });
+    breakpointChanged = this.currentBreakpoint.name !== prevBp.name;
     console.log(
       "*********** WIDTH:" + winWidth + ", CURRENT BREAKPOINT: ",
-      this.currentBreakpoint
+      this.currentBreakpoint + " changed: " + breakpointChanged
     );
     return breakpointChanged;
+  }
+
+  refreshGrid() {
+    this.constructGrid();
+    this.renderGrid();
+    this.updateListHeight();
+
+    // re-render after animation is done to adjust for scrollbar presence
+    setTimeout(() => {
+      this.constructGrid();
+      this.renderGrid();
+      this.updateListHeight();
+    }, this.cssVariables.animationTime);
   }
 
   /**
@@ -569,7 +583,7 @@ class AnimatedProjectList {
     const rowsSize = this.listState.itemSize * this.listState.numRows;
     const guttersSize = this.listState.itemGutter * numGutters;
     const height = rowsSize + guttersSize + this.listState.listPadding * 2;
-    this.listEl.style.height = height.toString() + "px";
+    this.listEl.style.height = height + "px";
   }
 
   /**
