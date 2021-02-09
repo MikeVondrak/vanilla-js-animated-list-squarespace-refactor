@@ -117,9 +117,6 @@ class AnimatedProjectList {
       tags: ["a", "k", "i"]
     }
   ];
-  // *********************************************************
-  // End Configuration - DO NOT EDIT BELOW HERE
-  // *********************************************************
 
   // *********************************************************
   // Site Configuration
@@ -129,9 +126,15 @@ class AnimatedProjectList {
     { name: "sm", size: 480, cols: 2 },
     { name: "md", size: 600, cols: 3 },
     { name: "lg", size: 840, cols: 3 },
-    { name: "xl", size: 1024, cols: 4 },
-    { name: "hd", size: 1440, cols: 5 }
+    { name: "xl", size: 1024, cols: 3 },
+    { name: "xxl", size: 1280, cols: 3 },
+    { name: "xxxl", size: 1440, cols: 3 },
+    { name: "hd", size: 1920, cols: 4 }
   ];
+
+  // *********************************************************
+  // End Configuration - DO NOT EDIT BELOW HERE
+  // *********************************************************
 
   imgSrcBaseUrl = "https://blue-helicon-3bfm.squarespace.com/"; // overridden by CSS variable
   imgSrcUrlJoiner = "s/"; // path where Squarespace stores uploaded images

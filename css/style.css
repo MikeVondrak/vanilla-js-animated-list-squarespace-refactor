@@ -33,12 +33,13 @@ body {
   --color-gray-dk: #888;
   --color-black: #333;
 
-  --color-list-bg: var(--color-black);
+  --color-list-bg: transparent;
 
   background-color: var(--color-white);
 }
 
 #Animated-Project-List {
+  /* app container */
 }
 
 #Animated-Project-List button {
@@ -86,68 +87,6 @@ body {
   font-size: 3rem;
 }
 
-#Animation-Settings {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-#Animation-Settings button {
-  position: relative;
-  display: block;
-  width: 80px;
-  right: 0px;
-  padding: 0.2rem 1rem;
-  font-size: 0.5rem;
-  text-shadow: 1px 1px 1px #000;
-}
-#Animation-Settings-Panel {
-  display: none;
-  width: 80%;
-  height: 0px;
-  overflow: hidden;
-  margin-top: 1rem;
-  border-radius: 0.5rem;
-  /* padding: 1rem; */
-  /* border: 2px dashed var(--color-white); */
-  /* background-color: var(--color-gray-lt); */
-  background: repeating-linear-gradient(
-    -45deg,
-    var(--color-gray-lt),
-    var(--color-gray-lt) 10px,
-    var(--color-gray-md) 10px,
-    var(--color-gray-md) 20px
-  );
-
-  transition: height var(--animation-time) ease-out;
-}
-#Animation-Settings-Panel.expanded {
-  height: 80px;
-}
-#Animation-Settings-Panel > div {
-  margin: 1rem;
-}
-#Animation-Settings-Panel label {
-  margin-right: 0.5rem;
-}
-#Animation-Settings-Panel label.unit {
-  margin: 0rem;
-}
-#Animation-Settings-Panel input {
-  width: 3rem;
-}
-#Animation-Settings-Panel input.unit {
-  width: auto;
-}
-#Animation-Settings-Panel .setting-container {
-  display: inline-block;
-  margin-left: 2rem;
-}
-#Animation-Settings-Panel .setting-container:first-child {
-  margin-left: 0;
-}
-
 #List-Filters {
   display: flex;
   flex-wrap: wrap;
@@ -169,23 +108,18 @@ body {
 }
 .animated-list-item {
   position: absolute;
-  /*height: var(--project-item-height);
-  width: 30%;*/
-  overflow: hidden;
-
   display: flex;
   justify-content: space-between;
-  /* padding: 1rem; */
+  overflow: hidden;
   background: var(--color-white);
-  /* border: 1px solid var(--color-black); */
-  border-radius: 0.5rem;
+  /* border-radius: 0.5rem; */
   background-position: center;
   background-size: cover;
 
   transition: width var(--animation-time) ease,
     transform var(--animation-time) ease, opacity var(--animation-time) ease;
 
-  box-shadow: 1px 1px 5px #000;
+  /* box-shadow: 1px 1px 5px #000; */
 }
 
 .animated-list-item a {
