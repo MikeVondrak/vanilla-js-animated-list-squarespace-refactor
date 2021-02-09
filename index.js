@@ -338,7 +338,7 @@ class AnimatedProjectList {
         const tag = Object.keys(this.projectTags).find(key => key === btn.id);
         const tagId = this.projectTags[tag];
         this.updateFilterButtonState(btn.id);
-        //this.sortProjectsByTag(tagId);
+        this.sortProjectsByTag(tagId);
       });
     });
 
@@ -468,40 +468,8 @@ class AnimatedProjectList {
       transformMatrix.scaleY = 1;
 
       this.setCssTransform(el, transformMatrix);
-    });
-  }
 
-  /**
-   * REFACTOR
-   */
-  renderDisplayList() {
-    this.getListState();
-    let rowCounter = 0;
-    this.displayList.forEach((project, idx) => {
-      let el = document.getElementById(project.selector);
-
-      let transformMatrix = this.getValuesFromTransformMatrix(el);
-      transformMatrix.scaleX = 1;
-      transformMatrix.scaleY = 1;
-      el.style.display = "flex";
-
-      //const itemHeight = this.getCurrentListItemHeightPx();
-      const itemHeight = this.getListItemHeightSquare();
-      const itemGutter = parseInt(this.cssVariables.projectItemGutter);
-
-      transformMatrix.ty = rowCounter * (itemHeight + itemGutter);
-      transformMatrix.tx = 0; // reset for logic below
-
-      rowCounter = this.setupColumnPropertiesForRow(
-        el,
-        idx,
-        transformMatrix,
-        rowCounter
-      );
-
-      this.setCssTransform(el, transformMatrix);
-
-      // wait 1 cycle after setting display back to 'flex' so animation isn't cancelled
+      // wait 1 cycle after setting display: flex so animation isn't cancelled
       setTimeout(() => {
         el.style.opacity = 1;
       });
@@ -510,10 +478,6 @@ class AnimatedProjectList {
 
   /**
    * filter the list of projects based on what tags they're identified with
-   *
-   *
-   * TODO: REFACTOR
-   *
    */
   sortProjectsByTag(tag = "a") {
     this.currentTag = tag;
@@ -543,35 +507,13 @@ class AnimatedProjectList {
       // wait for fade-out to finish then display none so space is removed from DOM
       setTimeout(() => {
         el.style.display = "none";
-      }, this.cssVariables.fadeTime);
+      }, this.cssVariables.animationTime);
     });
-
-    this.getListState();
-    const listWidth = this.listState.listWidth;
-    const columnWidth = this.listState.columnWidth;
-    const column2Pos = this.listState.column2Pos;
-
-    console.log(
-      ">>>>> listWidth: " +
-        listWidth +
-        ", columnWidth: " +
-        columnWidth +
-        ", column2Pos: " +
-        column2Pos
-    );
-
-    this.renderDisplayList();
-    this.updateListHeight();
-
-    console.log("removeList", removeList);
-    console.log("addList", addList);
-    console.log("displayList", this.displayList);
 
     // wait for animation to finish so DOM is up to date after setting display 'flex' on items
     setTimeout(() => {
-      this.renderDisplayList();
-      // NEED updateList function to redraw items after scrollbar has been shown/hidden based on content length triggered by setting display 'none' or 'flex'
-    }, this.cssVariables.fadeTime);
+      this.refreshGrid();
+    }, this.cssVariables.animationTime);
   }
 
   /**
