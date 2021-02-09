@@ -186,7 +186,6 @@ class AnimatedProjectList {
   throttleTime = 20;
   currentBreakpoint = this.breakpoints.find(bp => bp.name === "xs");
   displayList = [];
-  settingsShowing = false;
 
   appEl = {};
   settingsEl = {};
@@ -194,8 +193,6 @@ class AnimatedProjectList {
   settingsBtnEl = {};
   filtersEl = {};
   listEl = {};
-
-  currentTag = "a";
 
   /**
    * Primary state
@@ -212,18 +209,35 @@ class AnimatedProjectList {
     column2Pos: 0
   };
 
-  perRow = 3;
-  alternatingRows = false;
+  // *********************************************************
+  // *********************************************************
 
-  // list: array of project objects to list
-  // tags: object with tag / id pairs to create filter buttons
+  /**
+   * Constructor
+   */
   constructor() {
     this.initialize();
+
+    this.generateDisplayList();
+    this.constructGrid();
+
+    // draw the list of items
+    this.populateListItems();
+    this.updateListHeight();
+
+    //this.sortProjectsByTag("a");
+    this.handleResize();
+    this.updateSettingsValues();
+
+    this.calcBreakpoint();
   }
 
+  /**
+   * First-time creation and init logic
+   */
   initialize() {
+    // get configuration settings from custom CSS we added to Squarespace
     this.populateCssVariables();
-    this.calcBreakpoint();
 
     // make css adjustment for Squarespace pages
     this.setMainElementWidth();
@@ -238,19 +252,38 @@ class AnimatedProjectList {
       return;
     }
 
-    // run once upon construction
+    // create the divs that will hold the filter buttons and list
     this.buildContainerElements(this.projectList, this.projectTags);
+
+    // attach event handlers for filter buttons and window resize
     this.addEventHandlers();
-
-    // draw the list of items
-    this.populateListItems();
-    this.updateListHeight();
-
-    //this.sortProjectsByTag("a");
-    this.handleResize();
-    this.updateSettingsValues();
   }
 
+  /**
+   * Get CSS variables defined in body of custom CSS in Squarespace
+   */
+  populateCssVariables() {
+    let bodyStyles = window.getComputedStyle(document.body);
+
+    for (const prop in this.cssVariableNames) {
+      const cssVarName = this.cssVariableNames[prop];
+      this.cssVariables[prop] = bodyStyles.getPropertyValue(cssVarName).trim();
+    }
+  }
+
+  /**
+   * Squarespace pages of "blank" type have a style applied to the <main> element that limits the width to 1280,
+   * - override this here instead of in CSS so we can affect only the home page
+   */
+  setMainElementWidth() {
+    const el = document.getElementsByTagName("main");
+    el[0].style.width = "100%";
+    el[0].style.maxWidth = "100%";
+  }
+
+  /**
+   * Verify we have everything needed to render the list or display an error message if possible
+   */
   verifyRequirements(appEl, list, tags) {
     if (!appEl) {
       console.log("Error: could not find element with ID #" + this.htmlIds.app);
@@ -267,20 +300,79 @@ class AnimatedProjectList {
     return true;
   }
 
-  // Squarespace pages of "blank" type have a style applied to the <main> element that limits the width to 1280,
-  // override this here instead of in CSS so we can affect only the home page
-  setMainElementWidth() {
-    const el = document.getElementsByTagName("main");
-    el[0].style.width = "100%";
-    el[0].style.maxWidth = "100%";
+  /**
+   * Add event handlers for filter button click, window resize
+   */
+  addEventHandlers() {
+    const filterButtons = [...this.filtersEl.children];
+
+    filterButtons.forEach((btn, idx) => {
+      btn.addEventListener("click", () => {
+        const tag = Object.keys(this.projectTags).find(key => key === btn.id);
+        const tagId = this.projectTags[tag];
+        this.updateFilterButtonState(btn.id);
+        this.sortProjectsByTag(tagId);
+      });
+    });
+
+    // add window resize event handler
+    let resizeFunction = this.handleResize.bind(this);
+    window.addEventListener("resize", resizeFunction);
   }
 
-  populateCssVariables() {
-    let bodyStyles = window.getComputedStyle(document.body);
+  /**
+   * Add / remove the "selected" class from the active filter button
+   */
+  updateFilterButtonState(selectedBtnId) {
+    // iterate through buttons and remove selected class
+    Object.keys(this.projectTags).forEach(tag => {
+      const btnEl = document.getElementById(tag);
+      if (tag === selectedBtnId) {
+        btnEl.classList.add("selected");
+      } else {
+        btnEl.classList.remove("selected");
+      }
+    });
+  }
 
-    for (const prop in this.cssVariableNames) {
-      const cssVarName = this.cssVariableNames[prop];
-      this.cssVariables[prop] = bodyStyles.getPropertyValue(cssVarName).trim();
+  /**
+   * Recalculate grid on window resize
+   */
+  handleResize() {
+    if (!this.throttled) {
+      this.calcBreakpoint();
+      this.setColumnsPerBreakpoint();
+      this.sortProjectsByTag(this.currentTag);
+
+      this.throttled = true;
+      setTimeout(() => {
+        console.log("############# HANDLE RESIZE");
+        this.throttled = false;
+      }, this.throttleTime);
+    }
+  }
+
+  /**
+   * Helper function to generate HTML elements
+   */
+  setColumnsPerBreakpoint() {
+    if (
+      this.displayList &&
+      this.displayList.length < this.currentBreakpoint.cols
+    ) {
+      this.perRow = this.displayList.length ? this.displayList.length : 1;
+      //this.renderDisplayList();
+      const h = this.getListItemHeightSquare();
+      console.log("+++++++++ new item height: " + h);
+      this.setItemsHeight(h, "px");
+    } else {
+      console.log(
+        "+++++++++ items > perRow: " +
+          this.displayList.length +
+          " " +
+          this.perRow
+      );
+      this.perRow = this.currentBreakpoint.cols;
     }
   }
 
@@ -310,102 +402,6 @@ class AnimatedProjectList {
     this.filtersEl.innerHTML = this.buildFilterButtons(tags);
 
     this.listEl.innerHTML = this.buildList();
-  }
-
-  buildUnitsGroup(id) {
-    const radioAttrs = {
-      type: "radio",
-      name: this.htmlNames.itemHeightUnit
-    };
-    let markup = "";
-    Object.keys(this.lengthUnits).forEach((unit, idx) => {
-      const elId = id + "-" + unit;
-      const elAttrs =
-        idx === 0
-          ? { ...radioAttrs, id: elId, value: unit, checked: true }
-          : { ...radioAttrs, id: elId, value: unit };
-      let radio = this.generateElement(
-        "input",
-        elAttrs,
-        this.cssClasses.unit,
-        undefined,
-        false,
-        false,
-        true
-      );
-      let label = this.generateElement(
-        "label",
-        { for: elId },
-        this.cssClasses.unit,
-        this.lengthUnits[unit]
-      );
-      markup += radio + label;
-    });
-    return markup;
-  }
-
-  // construct the settings controls for animations and layout
-  buildSettings() {
-    const toggleSettingsButton = this.generateElement(
-      "button",
-      "",
-      undefined,
-      "&#x25BC;"
-    );
-
-    // item height setting
-    const heightTextboxLabel = this.generateElement(
-      "label",
-      { for: this.htmlIds.inputItemHeight },
-      undefined,
-      "Item Height:"
-    );
-    const heightTextboxInput = this.generateElement("input", {
-      id: this.htmlIds.inputItemHeight,
-      type: "textbox"
-    });
-    const radios = this.buildUnitsGroup(this.htmlIds.inputItemHeightUnit);
-    const heightSetting = this.generateElement(
-      "div",
-      undefined,
-      this.cssClasses.setting,
-      heightTextboxLabel + heightTextboxInput + radios
-    );
-
-    // number of items per row setting
-    const perRowTextboxLabel = this.generateElement(
-      "label",
-      { for: this.htmlIds.inputItemsPerRow },
-      undefined,
-      "Per Row:"
-    );
-    const perRowTextboxInput = this.generateElement("input", {
-      id: this.htmlIds.inputItemsPerRow,
-      type: "textbox"
-    });
-    const perRowSetting = this.generateElement(
-      "div",
-      undefined,
-      this.cssClasses.setting,
-      perRowTextboxLabel + perRowTextboxInput
-    );
-
-    // combine settings for panel
-    const settingsContent = this.generateElement(
-      "div",
-      undefined,
-      undefined,
-      heightSetting + perRowSetting
-    );
-    const settingsPanel = this.generateElement(
-      "div",
-      this.htmlIds.settingsPanel,
-      undefined,
-      settingsContent
-    );
-
-    const content = toggleSettingsButton + settingsPanel;
-    return content;
   }
 
   // construct the button elements for the filter buttons
@@ -469,65 +465,6 @@ class AnimatedProjectList {
     return listHtml;
   }
 
-  /**
-   * Add event handlers for filter button click, window resize
-   */
-  addEventHandlers() {
-    const filterButtons = [...this.filtersEl.children];
-
-    filterButtons.forEach((btn, idx) => {
-      btn.addEventListener("click", () => {
-        const tag = Object.keys(this.projectTags).find(key => key === btn.id);
-        const tagId = this.projectTags[tag];
-        this.updateFilterButtonState(btn.id);
-        this.sortProjectsByTag(tagId);
-      });
-    });
-
-    // add window resize event handler
-    let resizeFunction = this.handleResize.bind(this);
-    window.addEventListener("resize", resizeFunction);
-  }
-  /**
-   * Recalculate grid on window resize
-   */
-  handleResize() {
-    if (!this.throttled) {
-      this.calcBreakpoint();
-      this.setColumnsPerBreakpoint();
-      this.sortProjectsByTag(this.currentTag);
-
-      this.throttled = true;
-      setTimeout(() => {
-        console.log("############# HANDLE RESIZE");
-        this.throttled = false;
-      }, this.throttleTime);
-    }
-  }
-  /**
-   * Helper function to generate HTML elements
-   */
-  setColumnsPerBreakpoint() {
-    if (
-      this.displayList &&
-      this.displayList.length < this.currentBreakpoint.cols
-    ) {
-      this.perRow = this.displayList.length ? this.displayList.length : 1;
-      //this.renderDisplayList();
-      const h = this.getListItemHeightSquare();
-      console.log("+++++++++ new item height: " + h);
-      this.setItemsHeight(h, "px");
-    } else {
-      console.log(
-        "+++++++++ items > perRow: " +
-          this.displayList.length +
-          " " +
-          this.perRow
-      );
-      this.perRow = this.currentBreakpoint.cols;
-    }
-  }
-
   populateListItems() {
     // iterate through list of items and apply background-image style using imgSrc from project
     this.projectList.forEach(project => {
@@ -540,18 +477,6 @@ class AnimatedProjectList {
     });
 
     const items = document.getElementsByClassName(this.cssClasses.item);
-  }
-
-  updateFilterButtonState(selectedBtnId) {
-    // iterate through buttons and remove selected class
-    Object.keys(this.projectTags).forEach(tag => {
-      const btnEl = document.getElementById(tag);
-      if (tag === selectedBtnId) {
-        btnEl.classList.add("selected");
-      } else {
-        btnEl.classList.remove("selected");
-      }
-    });
   }
 
   updateListHeight() {
