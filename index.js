@@ -242,10 +242,6 @@ class AnimatedProjectList {
     this.buildContainerElements(this.projectList, this.projectTags);
     this.addEventHandlers();
 
-    // add window resize event handler
-    let f = this.handleResize.bind(this);
-    window.addEventListener("resize", f);
-
     // draw the list of items
     this.populateListItems();
     this.updateListHeight();
@@ -473,6 +469,9 @@ class AnimatedProjectList {
     return listHtml;
   }
 
+  /**
+   * Add event handlers for filter button click, window resize
+   */
   addEventHandlers() {
     const filterButtons = [...this.filtersEl.children];
 
@@ -485,22 +484,48 @@ class AnimatedProjectList {
       });
     });
 
-    this.settingsBtnEl.addEventListener("click", () => {
-      this.toggleSettingsPanel();
-    });
-    document
-      .getElementById(this.htmlIds.inputItemHeight)
-      .addEventListener("input", this.itemHeightChanged.bind(this));
-    Object.keys(this.lengthUnits).forEach(unit => {
-      const inputId = this.htmlIds.inputItemHeightUnit + "-" + unit;
-      document
-        .getElementById(inputId)
-        .addEventListener("input", this.itemHeightUnitChanged.bind(this));
-    });
+    // add window resize event handler
+    let resizeFunction = this.handleResize.bind(this);
+    window.addEventListener("resize", resizeFunction);
+  }
+  /**
+   * Recalculate grid on window resize
+   */
+  handleResize() {
+    if (!this.throttled) {
+      this.calcBreakpoint();
+      this.setColumnsPerBreakpoint();
+      this.sortProjectsByTag(this.currentTag);
 
-    document
-      .getElementById(this.htmlIds.inputItemsPerRow)
-      .addEventListener("input", this.projectsPerRowChange.bind(this));
+      this.throttled = true;
+      setTimeout(() => {
+        console.log("############# HANDLE RESIZE");
+        this.throttled = false;
+      }, this.throttleTime);
+    }
+  }
+  /**
+   * Helper function to generate HTML elements
+   */
+  setColumnsPerBreakpoint() {
+    if (
+      this.displayList &&
+      this.displayList.length < this.currentBreakpoint.cols
+    ) {
+      this.perRow = this.displayList.length ? this.displayList.length : 1;
+      //this.renderDisplayList();
+      const h = this.getListItemHeightSquare();
+      console.log("+++++++++ new item height: " + h);
+      this.setItemsHeight(h, "px");
+    } else {
+      console.log(
+        "+++++++++ items > perRow: " +
+          this.displayList.length +
+          " " +
+          this.perRow
+      );
+      this.perRow = this.currentBreakpoint.cols;
+    }
   }
 
   populateListItems() {
@@ -784,41 +809,6 @@ class AnimatedProjectList {
       ")";
     element.style.transform = transform;
     this.getValuesFromTransformMatrix(element);
-  }
-
-  handleResize() {
-    if (!this.throttled) {
-      this.calcBreakpoint();
-      this.setColumnsPerBreakpoint();
-      this.sortProjectsByTag(this.currentTag);
-
-      this.throttled = true;
-      setTimeout(() => {
-        console.log("############# HANDLE RESIZE");
-        this.throttled = false;
-      }, this.throttleTime);
-    }
-  }
-
-  setColumnsPerBreakpoint() {
-    if (
-      this.displayList &&
-      this.displayList.length < this.currentBreakpoint.cols
-    ) {
-      this.perRow = this.displayList.length ? this.displayList.length : 1;
-      //this.renderDisplayList();
-      const h = this.getListItemHeightSquare();
-      console.log("+++++++++ new item height: " + h);
-      this.setItemsHeight(h, "px");
-    } else {
-      console.log(
-        "+++++++++ items > perRow: " +
-          this.displayList.length +
-          " " +
-          this.perRow
-      );
-      this.perRow = this.currentBreakpoint.cols;
-    }
   }
 
   /**
