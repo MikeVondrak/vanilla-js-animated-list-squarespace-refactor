@@ -362,23 +362,22 @@ class AnimatedProjectList {
   }
   /**
    * Recalculate grid on window resize
-   *
-   * TODO: FIX THIS - not always sizing properly (scrollbars?)
-   *
    */
   handleResize() {
     if (!this.throttled) {
-      this.refreshGrid();
-      if (this.calcBreakpoint()) {
-        console.log("Recalculate number of columns for new breakpoint");
-        this.refreshGrid();
-      }
-
       this.throttled = true;
       setTimeout(() => {
         console.log("############# HANDLE RESIZE");
+
+        if (this.calcBreakpoint()) {
+          console.log("Recalculate number of columns for new breakpoint");
+          //this.refreshGrid();
+        }
+
+        this.refreshGrid();
+
         this.throttled = false;
-      }, this.throttleTime);
+      }, this.cssVariables.animationTime - 1);
     }
   }
 
@@ -386,22 +385,22 @@ class AnimatedProjectList {
    * Set breakpoint for current screen width and return true if changed
    */
   calcBreakpoint() {
+    console.log("calc bp start:", this.currentBreakpoint);
     let breakpointChanged = false;
     const winWidth = window.innerWidth;
     if (!this.breakpoints || !Array.isArray(this.breakpoints)) {
       throw new Error("breakpoints missing or not an array");
     }
-    const prevBp = this.currentBreakpoint.name;
+    const prevBpName = this.currentBreakpoint.name;
     this.breakpoints.forEach(bp => {
       if (winWidth >= bp.size) {
         this.currentBreakpoint = bp;
       }
     });
-    breakpointChanged = this.currentBreakpoint.name !== prevBp.name;
-    console.log(
-      "*********** WIDTH:" + winWidth + ", CURRENT BREAKPOINT: ",
-      this.currentBreakpoint + " changed: " + breakpointChanged
-    );
+    breakpointChanged = this.currentBreakpoint.name !== prevBpName;
+    console.log("*********** WIDTH:" + winWidth + ", CURRENT BREAKPOINT: ");
+    console.log(this.currentBreakpoint);
+    console.log("Changed: " + breakpointChanged);
     return breakpointChanged;
   }
 
