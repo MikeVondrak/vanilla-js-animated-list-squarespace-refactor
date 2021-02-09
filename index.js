@@ -510,10 +510,7 @@ class AnimatedProjectList {
       }, this.cssVariables.animationTime);
     });
 
-    // wait for animation to finish so DOM is up to date after setting display 'flex' on items
-    setTimeout(() => {
-      this.refreshGrid();
-    }, this.cssVariables.animationTime);
+    this.refreshGrid();
   }
 
   /**
