@@ -1,0 +1,235 @@
+/* Squarespace Overrides */
+main.site-page {
+  width: 100%;
+  max-width: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  --color-orange: #fd8e17;
+  --color-orange-lt: #ffa832;
+  --color-orange-dk: #ed6e08;
+  --color-white: #fff;
+  --color-gray-lt: #eaeaea;
+  --color-gray-md: #dcdcdc;
+  --color-gray-dk: #888;
+  --color-black: #333;
+
+  --color-list-bg: var(--color-black);
+
+  --number-of-projects: 5;
+
+  --project-list-padding: 16px; /* NOTE: do not use rem units, code side doesn't handle */
+  --project-item-height: 400px;
+  --project-item-gutter: 20px;
+
+  --fade-time: 500; /* in ms, used by js code */
+  --fade-time-s: 0.5s;
+  --transform-time: 0.5s;
+
+  --base-url: "https://blue-helicon-3bfm.squarespace.com/";
+
+  background-color: var(--color-white);
+}
+
+#Animated-Project-List {
+}
+
+#Animated-Project-List button {
+  padding: 0.5rem;
+  background: var(--color-orange);
+  color: var(--color-white);
+  border: none;
+  border-radius: 3px;
+  box-shadow: 1px 1px 3px #000;
+  /* text-shadow: -1px -1px 2px #000; */
+  /* font-weight: bold; */
+  text-transform: uppercase;
+}
+#Animated-Project-List button:hover {
+  background-color: var(--color-orange-lt);
+}
+#Animated-Project-List button:active {
+  box-shadow: inset 1px 1px 3px #000;
+}
+#Animated-Project-List button:focus {
+  /* background: var(--color-orange-dk); */
+  border: none;
+  outline: 1px dashed var(--color-white);
+  outline-offset: -2px;
+  /* box-shadow: inset 1px 1px 3px #000; */
+}
+#Animated-Project-List button.selected {
+  background: var(--color-orange-dk);
+  border: none;
+  outline: none;
+  box-shadow: inset 1px 1px 3px #000;
+}
+#Animated-Project-List button.selected:focus {
+  border: none;
+  outline: 1px dashed var(--color-white);
+  outline-offset: -2px;
+}
+
+#Page-Title {
+  padding: 1rem;
+  margin: 0 0 1rem 0;
+
+  background-color: var(--color-orange);
+  color: var(--color-white);
+  font-size: 3rem;
+}
+
+#Animation-Settings {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+#Animation-Settings button {
+  position: relative;
+  display: block;
+  width: 80px;
+  right: 0px;
+  padding: 0.2rem 1rem;
+  font-size: 0.5rem;
+  text-shadow: 1px 1px 1px #000;
+}
+#Animation-Settings-Panel {
+  display: none;
+  width: 80%;
+  height: 0px;
+  overflow: hidden;
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  /* padding: 1rem; */
+  /* border: 2px dashed var(--color-white); */
+  /* background-color: var(--color-gray-lt); */
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--color-gray-lt),
+    var(--color-gray-lt) 10px,
+    var(--color-gray-md) 10px,
+    var(--color-gray-md) 20px
+  );
+
+  transition: height var(--fade-time-s) ease-out;
+}
+#Animation-Settings-Panel.expanded {
+  height: 80px;
+}
+#Animation-Settings-Panel > div {
+  margin: 1rem;
+}
+#Animation-Settings-Panel label {
+  margin-right: 0.5rem;
+}
+#Animation-Settings-Panel label.unit {
+  margin: 0rem;
+}
+#Animation-Settings-Panel input {
+  width: 3rem;
+}
+#Animation-Settings-Panel input.unit {
+  width: auto;
+}
+#Animation-Settings-Panel .setting-container {
+  display: inline-block;
+  margin-left: 2rem;
+}
+#Animation-Settings-Panel .setting-container:first-child {
+  margin-left: 0;
+}
+
+#List-Filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+  margin-bottom: 1rem;
+}
+#List-Filters button {
+  min-width: 15%;
+}
+
+#Animated-List {
+  position: relative;
+  height: 0;
+  padding: var(--project-list-padding);
+  background: var(--color-list-bg);
+
+  transition: height var(--transform-time) ease;
+}
+.animated-list-item {
+  position: absolute;
+  height: var(--project-item-height);
+  width: 40%;
+
+  display: flex;
+  justify-content: space-between;
+  /* padding: 1rem; */
+  background: var(--color-white);
+  /* border: 1px solid var(--color-black); */
+  border-radius: 0.5rem;
+  background-position: center;
+  background-size: cover;
+
+  transition: width var(--transform-time) ease,
+    transform var(--transform-time) ease, opacity var(--transform-time) ease;
+
+  box-shadow: 1px 1px 5px #000;
+}
+
+.animated-list-item a {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  transition: background-color var(--transform-time) ease;
+}
+.animated-list-item a:hover {
+  background-color: rgba(0, 0, 0, 0.75);
+}
+.animated-list-item a > * {
+  opacity: 0;
+  font-size: 5vw;
+  line-height: 1.1;
+  margin: 1rem;
+  padding: 0.5rem 0.5rem 1rem 0.5rem;
+  /* background: rgba(255, 255, 255, 0.85); */
+  border-radius: 0.25rem;
+  text-shadow: 1px 1px 1px #fff;
+
+  transition: opacity var(--fade-time-s) ease;
+}
+.animated-list-item a:hover > * {
+  opacity: 1;
+}
+
+.animated-list-item-0 {
+  background-color: #facccc;
+}
+.animated-list-item-1 {
+  background-color: #ccfacc;
+}
+.animated-list-item-2 {
+  background-color: #ccccfa;
+}
+.animated-list-item-3 {
+  background-color: #fafacc;
+}
+.animated-list-item-4 {
+  background-color: #faccfa;
+}
