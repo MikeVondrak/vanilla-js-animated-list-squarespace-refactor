@@ -221,8 +221,7 @@ class AnimatedProjectList {
     this.generateDisplayList();
     this.constructGrid();
 
-    // draw the list of items
-    this.populateListItems();
+    // adjust height of list container
     this.updateListHeight();
 
     //this.sortProjectsByTag("a");
@@ -258,7 +257,6 @@ class AnimatedProjectList {
     // attach event handlers for filter buttons and window resize
     this.addEventHandlers();
   }
-
   /**
    * Get CSS variables defined in body of custom CSS in Squarespace
    */
@@ -270,7 +268,6 @@ class AnimatedProjectList {
       this.cssVariables[prop] = bodyStyles.getPropertyValue(cssVarName).trim();
     }
   }
-
   /**
    * Squarespace pages of "blank" type have a style applied to the <main> element that limits the width to 1280,
    * - override this here instead of in CSS so we can affect only the home page
@@ -280,7 +277,6 @@ class AnimatedProjectList {
     el[0].style.width = "100%";
     el[0].style.maxWidth = "100%";
   }
-
   /**
    * Verify we have everything needed to render the list or display an error message if possible
    */
@@ -299,7 +295,40 @@ class AnimatedProjectList {
     }
     return true;
   }
+  /**
+   * Construct the containing divs for the filter buttons and project list
+   */
+  buildContainerElements(list, tags) {
+    this.displayList = [...list];
 
+    // create the containers for the filter buttons and the project list
+    let containers = "";
+    containers += '<div id="' + this.htmlIds.filters + '"></div>';
+    containers += '<div id="' + this.htmlIds.list + '"></div>';
+    this.appEl.innerHTML = containers;
+
+    // get references to the created elements to populate them
+    this.filtersEl = document.getElementById(this.htmlIds.filters);
+    this.listEl = document.getElementById(this.htmlIds.list);
+
+    // add filter buttons based on project tags, e.g. to show branding projects only
+    this.filtersEl.innerHTML = this.buildFilterButtons(tags);
+
+    // build the project list items
+    this.listEl.innerHTML = this.buildList();
+
+    // get bg images for list items
+    this.populateListItemBgs();
+  }
+  /**
+   * iterate through list of items and apply background-image style using imgSrc from project
+   */
+  populateListItemBgs() {
+    this.projectList.forEach(project => {
+      let el = document.getElementById(project.selector);
+      el.style.backgroundImage = "url(" + project.imgSrc + ")";
+    });
+  }
   /**
    * Add event handlers for filter button click, window resize
    */
@@ -319,7 +348,6 @@ class AnimatedProjectList {
     let resizeFunction = this.handleResize.bind(this);
     window.addEventListener("resize", resizeFunction);
   }
-
   /**
    * Add / remove the "selected" class from the active filter button
    */
@@ -334,9 +362,13 @@ class AnimatedProjectList {
       }
     });
   }
-
   /**
    * Recalculate grid on window resize
+   *
+   *
+   * TODO: REFACTOR
+   *
+   *
    */
   handleResize() {
     if (!this.throttled) {
@@ -351,9 +383,10 @@ class AnimatedProjectList {
       }, this.throttleTime);
     }
   }
-
   /**
-   * Helper function to generate HTML elements
+   *
+   * TODO: REFACTOR
+   *
    */
   setColumnsPerBreakpoint() {
     if (
@@ -376,126 +409,37 @@ class AnimatedProjectList {
     }
   }
 
-  // construct the containing elements for the filter buttons and project list
-  // RUN ONCE
-  buildContainerElements(list, tags) {
-    this.displayList = [...list];
-
-    // create the containers for the filter buttons and the project list
-    let containers = '<div id="' + this.htmlIds.settings + '"></div>';
-    containers += '<div id="' + this.htmlIds.filters + '"></div>';
-    containers += '<div id="' + this.htmlIds.list + '"></div>';
-    this.appEl.innerHTML = containers;
-
-    // get references to the created elements to populate them
-    this.settingsEl = document.getElementById(this.htmlIds.settings);
-    this.filtersEl = document.getElementById(this.htmlIds.filters);
-    this.listEl = document.getElementById(this.htmlIds.list);
-
-    // expandable section with animation / layout settings
-    this.settingsEl.innerHTML = this.buildSettings();
-    this.settingsPanelEl = document.getElementById(this.htmlIds.settingsPanel);
-
-    this.settingsBtnEl = this.settingsEl.getElementsByTagName("button")[0];
-
-    // add filter links based on project tags, e.g. to show branding projects only
-    this.filtersEl.innerHTML = this.buildFilterButtons(tags);
-
-    this.listEl.innerHTML = this.buildList();
-  }
-
-  // construct the button elements for the filter buttons
-  // RUN ONCE
-  buildFilterButtons(filterList) {
-    let buttons = "";
-    let keys = Object.keys(filterList);
-    keys.forEach((filter, index) => {
-      const btnClass = index === 0 ? "selected" : "";
-      const markup = this.generateElement("button", filter, btnClass, filter);
-      buttons += markup;
-    });
-    return buttons;
-  }
-
-  // build the list of project tags separated by commas, without 'a' for All
-  buildProjectTagList(tagList) {
-    let tags = "<span>";
-    tags += tagList.filter(tag => tag !== "a").join(", ");
-    tags += "</span>";
-    return tags;
-  }
-
-  // e.g. "animated-list-item animated-list-item-1"
-  buildProjectCssClasses(itemId) {
-    return this.cssClasses.item + " " + this.cssClasses.item + "-" + itemId;
-  }
-
-  buildListItem(project, cssClass, tagSpan) {
-    // generateElement: tag, id, class, content, add close tag, only close tag
-    // build the markup for an animated-list-item from innermost element out
-    let markup = this.generateElement(
-      "div",
-      undefined,
-      this.cssClasses.title,
-      project.title
-    );
-    markup = this.generateElement(
-      "a",
-      { href: project.url },
-      undefined,
-      markup
-    );
-    markup = this.generateElement("div", project.selector, cssClass, markup);
-
-    return markup;
-  }
-
-  buildList() {
-    let listHtml = "";
-    this.displayList.forEach((project, index) => {
-      const projectItem = this.projectList[index];
-      const cssClass = this.buildProjectCssClasses(index);
-      const tags = this.buildProjectTagList(project.tags);
-
-      let template = this.buildListItem(projectItem, cssClass, tags);
-
-      // and add it to the list element
-      listHtml += template;
-    });
-    return listHtml;
-  }
-
-  populateListItems() {
-    // iterate through list of items and apply background-image style using imgSrc from project
-    this.projectList.forEach(project => {
-      let el = document.getElementById(project.selector);
-      el.style.backgroundImage = "url(" + project.imgSrc + ")";
-
-      //let linkEl = el.getElementsByTagName("h2")[0];
-      // this is a class in Squarespace to set larger font size
-      //linkEl.classList.add("index-item-title");
-    });
-
-    const items = document.getElementsByClassName(this.cssClasses.item);
-  }
-
-  updateListHeight() {
-    const itemHeight = this.getCurrentListItemHeightPx();
-    const gutterHeight = parseInt(this.cssVariables.projectItemGutter);
-    const paddingHeight = parseInt(this.cssVariables.projectListPadding);
-
-    let numRows = 0;
-
-    if (this.displayList.length % 3 === 0) {
-      numRows = (this.displayList.length / 3) * 2;
-    } else {
-      numRows = Math.floor(2 * ((this.displayList.length - 1) / 3) + 1);
+  /**
+   * Set breakpoint for current screen width
+   */
+  calcBreakpoint() {
+    const winWidth = window.innerWidth;
+    if (!this.breakpoints || !Array.isArray(this.breakpoints)) {
+      debugger;
+      return;
     }
+    this.breakpoints.forEach(bp => {
+      if (winWidth >= bp.size) {
+        this.currentBreakpoint = bp;
+      }
+    });
+    console.log(
+      "*********** WIDTH:" + winWidth + ", CURRENT BREAKPOINT: ",
+      this.currentBreakpoint
+    );
+  }
 
-    const calcHeight =
-      (itemHeight + gutterHeight) * numRows + paddingHeight * 2;
-
-    this.listEl.style.height = calcHeight.toString() + "px";
+  /**
+   * Construct grid based on displayed items
+   */
+  constructGrid() {
+    const itemGutter = parseInt(this.cssVariables.projectItemGutter);
+    const listPadding = parseInt(this.cssVariables.projectListPadding);
+    const lastItemIdx = this.displayList.length - 1;
+    const listInnerWidth = this.listEl.width - listPadding * 2;
+    const numCols = this.currentBreakpoint.cols;
+    const numGutters = this.displayList.length - 1;
+    const size = (listInnerWidth - itemGutter * numGutters) / numCols;
   }
 
   getListState() {
@@ -552,14 +496,6 @@ class AnimatedProjectList {
     const itemWidth = itemStyle.width;
     console.log("%%%%%%%%%%%%% item width: " + itemWidth);
     return parseInt(itemWidth);
-  }
-
-  getListItemStyle() {
-    const listItem = this.listEl.getElementsByClassName(
-      this.cssClasses.item
-    )[0];
-    const itemStyle = window.getComputedStyle(listItem);
-    return itemStyle;
   }
 
   renderDisplayList() {
@@ -656,6 +592,38 @@ class AnimatedProjectList {
     }, this.cssVariables.fadeTime);
   }
 
+  /**
+   * Get last element in display list and calculate height of list parent container
+   */
+  updateListHeight() {
+    const lastItemIdx = this.displayList.length - 1;
+    const lastItemEl = this.getListItemEl(lastItemIdx);
+    const listPadding = parseInt(this.cssVariables.projectListPadding);
+    const offsetY = this.lastItemEl.offsetHeight - this.listEl.offsetHeight;
+    const height = offsetY + lastItemEl.height + listPadding;
+
+    this.listEl.style.height = height.toString() + "px";
+  }
+
+  /**
+   * Get style of item element
+   */
+  getListItemStyle(idx = 0) {
+    const listItem = this.getListItem(idx);
+    const itemStyle = window.getComputedStyle(listItem);
+    return itemStyle;
+  }
+  /**
+   * Get html element of list item for first or optional passed index element
+   */
+  getListItemEl(idx = 0) {
+    const listItem = this.listEl.getElementsByClassName(this.cssClasses.item);
+    return listItem[idx];
+  }
+
+  /**
+   * Parse CSS transform matrix string and return object
+   */
   getValuesFromTransformMatrix(element) {
     let computedStyles = window.getComputedStyle(element);
 
@@ -710,13 +678,9 @@ class AnimatedProjectList {
     return matrix;
   }
 
-  getScaleValue(value) {
-    if (!value || value === 0) {
-      return 0.001;
-    }
-    return value;
-  }
-
+  /**
+   * Create CSS transform matrix string from object
+   */
   setCssTransform(element, matrix) {
     let transform = "matrix(";
     transform +=
@@ -737,23 +701,84 @@ class AnimatedProjectList {
   }
 
   /**
-   * Set breakpoint for current screen width
+   * Using 0 as a value in the transform matrix causes animations not to run
+   * use 0.001 instead
    */
-  calcBreakpoint() {
-    const winWidth = window.innerWidth;
-    if (!this.breakpoints || !Array.isArray(this.breakpoints)) {
-      debugger;
-      return;
+  getScaleValue(value) {
+    if (!value || value === 0) {
+      return 0.001;
     }
-    this.breakpoints.forEach(bp => {
-      if (winWidth >= bp.size) {
-        this.currentBreakpoint = bp;
-      }
+    return value;
+  }
+
+  /**
+   * construct the button elements for the filter buttons
+   */
+  buildFilterButtons(filterList) {
+    let buttons = "";
+    let keys = Object.keys(filterList);
+    keys.forEach((filter, index) => {
+      const btnClass = index === 0 ? "selected" : "";
+      const markup = this.generateElement("button", filter, btnClass, filter);
+      buttons += markup;
     });
-    console.log(
-      "*********** WIDTH:" + winWidth + ", CURRENT BREAKPOINT: ",
-      this.currentBreakpoint
+    return buttons;
+  }
+
+  /**
+   * Construct the list of project items
+   * - items are hidden with display: none, only need to build the list once
+   */
+  buildList() {
+    let listHtml = "";
+    this.displayList.forEach((project, index) => {
+      const projectItem = this.projectList[index];
+      const cssClass = this.buildProjectCssClasses(index);
+      const tags = this.buildProjectTagList(project.tags);
+
+      let template = this.buildListItem(projectItem, cssClass, tags);
+      listHtml += template;
+    });
+    return listHtml;
+  }
+
+  /**
+   * build the list of project tags separated by commas, without 'a' for All
+   */
+  buildProjectTagList(tagList) {
+    let tags = "<span>";
+    tags += tagList.filter(tag => tag !== "a").join(", ");
+    tags += "</span>";
+    return tags;
+  }
+
+  /**
+   * Generate class for project item, e.g. "animated-list-item animated-list-item-1"
+   */
+  buildProjectCssClasses(itemId) {
+    return this.cssClasses.item + " " + this.cssClasses.item + "-" + itemId;
+  }
+
+  /**
+   * Build the markup for an animated-list-item from innermost element out
+   * - NOTE: tagSpan is not currently displayed
+   */
+  buildListItem(project, cssClass, tagSpan) {
+    let markup = this.generateElement(
+      "div",
+      undefined,
+      this.cssClasses.title,
+      project.title
     );
+    markup = this.generateElement(
+      "a",
+      { href: project.url },
+      undefined,
+      markup
+    );
+    markup = this.generateElement("div", project.selector, cssClass, markup);
+
+    return markup;
   }
 
   /**
