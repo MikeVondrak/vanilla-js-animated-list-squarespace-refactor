@@ -8,6 +8,14 @@ body .nav-wrapper .folder .subnav {
   left: -12.5em !important;
   text-align: right !important;
 }
+.mobile-bar-wrapper {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+}
+/* max-width: 70% applied at 320-480px we don't want */
+.index-item-title {
+  max-width: 100%;
+}
+/* end Squarespace overrides */
 
 * {
   box-sizing: border-box;
@@ -145,9 +153,9 @@ body {
 .animated-list-item a > * {
   opacity: 0;
   display: inline-flex;
-  font-size: 3vw;
+  font-size: 4vw;
   line-height: 1.1;
-  margin: 3rem;
+  margin: 1rem;
   padding: 0.5rem 0.5rem 1rem 0.5rem;
   /* hyphens: auto; */
   /* background: rgba(255, 255, 255, 0.85); */
