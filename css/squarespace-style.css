@@ -3,6 +3,11 @@ main.site-page {
   width: 100%;
   max-width: 100%;
 }
+/* right-align menu so long item names aren't off the page */
+body .nav-wrapper .folder .subnav {
+  left: -12.5em !important;
+  text-align: right !important;
+}
 
 * {
   box-sizing: border-box;
@@ -131,11 +136,11 @@ body {
   align-items: center;
   width: 100%;
   height: 100%;
-  /*background-color: transparent;
-  transition: background-color var(--animation-time) ease;*/
+  background-color: transparent;
+  transition: background-color var(--animation-time) ease;
 }
 .animated-list-item a:hover {
-  /* background-color: rgba(0, 0, 0, 0.75); */
+  background-color: rgba(0, 0, 0, 0.3);
 }
 .animated-list-item a > * {
   opacity: 0;

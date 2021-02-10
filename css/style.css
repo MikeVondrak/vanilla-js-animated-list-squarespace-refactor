@@ -3,6 +3,11 @@ main.site-page {
   width: 100%;
   max-width: 100%;
 }
+/* right-align menu so long item names aren't off the page */
+body .nav-wrapper .folder .subnav {
+  left: -12.5em !important;
+  text-align: right !important;
+}
 
 * {
   box-sizing: border-box;
