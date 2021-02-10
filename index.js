@@ -129,7 +129,7 @@ class AnimatedProjectList {
     { name: "xl", size: 1024, cols: 3 },
     { name: "xxl", size: 1280, cols: 3 },
     { name: "xxxl", size: 1440, cols: 3 },
-    { name: "hd", size: 1920, cols: 4 }
+    { name: "hd", size: 1920, cols: 3 }
   ];
 
   // *********************************************************
