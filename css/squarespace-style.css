@@ -164,6 +164,12 @@ body {
 
   transition: opacity var(--animation-time) ease;
 }
+/* TODO: use CSS vars for breakpoints and tie this in? */
+@media only screen and (max-width: 479px) {
+  .animated-list-item a > * {
+    font-size: 8vw;
+  }
+}
 .animated-list-item a:hover > * {
   opacity: 1;
 }
