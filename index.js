@@ -164,7 +164,10 @@ class AnimatedProjectList {
     item: "animated-list-item",
     title: "project-title",
     unit: "unit",
-    setting: "setting-container"
+    setting: "setting-container",
+    sqSpItemHover: "index-item-title",
+    sqSpItemHoverLink: "index-item-title-link",
+    sqSpItemHoverText: "index-item-title-text"
   };
 
   lengthUnits = {
@@ -678,7 +681,15 @@ class AnimatedProjectList {
    * Generate class for project item, e.g. "animated-list-item animated-list-item-1"
    */
   buildProjectCssClasses(itemId) {
-    return this.cssClasses.item + " " + this.cssClasses.item + "-" + itemId;
+    return (
+      this.cssClasses.item +
+      " " +
+      this.cssClasses.item +
+      "-" +
+      itemId +
+      " " +
+      this.cssClasses.sqSpItemHover
+    );
   }
 
   /**
@@ -689,13 +700,13 @@ class AnimatedProjectList {
     let markup = this.generateElement(
       "div",
       undefined,
-      this.cssClasses.title,
+      this.cssClasses.title + " " + this.cssClasses.sqSpItemHoverText,
       project.title
     );
     markup = this.generateElement(
       "a",
       { href: project.url },
-      undefined,
+      this.cssClasses.sqSpItemHoverLink,
       markup
     );
     markup = this.generateElement("div", project.selector, cssClass, markup);
