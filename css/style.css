@@ -1,4 +1,9 @@
 /* overrides for use w/o Squarespace */
+
+.animated-list-item a:hover {
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
 .animated-list-item a > * {
   background: rgba(255, 255, 255, 0.85); /* don't use for Squarespace */
 }
