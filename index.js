@@ -1,5 +1,6 @@
 // import stylesheet to have access to CSS vars
-import "./css/style.css";
+import "./css/squarespace-style.css"; // REMOVE THIS LINE for Squarespace
+import "./css/style.css"; // REMOVE THIS LINE for Squarespace
 
 // *********************************************************
 // Main app class
@@ -11,12 +12,13 @@ class AnimatedProjectList {
     All: "a",
     Branding: "b",
     Illustration: "i",
-    "UI-UX": "u",
+    "UX/UI": "u",
     Pattern: "p",
     Books: "k"
   };
 
   // define the projects that will be displayed in the list
+  // NOTE: ALWAYS include the "a" tag for ALL
   projectList = [
     {
       selector: "WynkoopAlley",
@@ -115,6 +117,13 @@ class AnimatedProjectList {
       url: "/projects/the-daily-vegan",
       imgSrc: "tile-the-daily-vegan.gif",
       tags: ["a", "k", "i"]
+    },
+    {
+      selector: "Conci",
+      title: "Conci",
+      url: "/projects/conci",
+      imgSrc: "tile-the-daily-vegan.gif",
+      tags: ["a", "u"]
     }
   ];
 
@@ -428,7 +437,7 @@ class AnimatedProjectList {
    */
   constructGrid() {
     const itemGutter = parseInt(this.cssVariables.projectItemGutter);
-    const listPadding = parseInt(this.cssVariables.projectListPadding);
+    const listPadding = 0; // parseInt(this.cssVariables.projectListPadding); // no padding for Squarespace
     const listWidth = this.listEl.clientWidth;
     const listInnerWidth = listWidth - listPadding * 2;
     const numCols = this.currentBreakpoint.cols;
