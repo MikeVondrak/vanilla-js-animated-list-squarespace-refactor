@@ -116,7 +116,7 @@ body {
   cursor: pointer;
 }
 #Animated-Project-List button:active {
-  background-color: var(--color-orange-lt);
+  /* background-color: var(--color-orange-lt); */
 }
 #Animated-Project-List button:focus {
   border: none;
