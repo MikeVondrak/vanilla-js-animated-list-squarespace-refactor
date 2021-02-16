@@ -524,13 +524,7 @@ class AnimatedProjectList {
     if (!this.throttled) {
       this.throttled = true;
       setTimeout(() => {
-        console.log("############# HANDLE RESIZE");
-
-        if (this.calcBreakpoint()) {
-          console.log("Recalculate number of columns for new breakpoint");
-          //this.refreshGrid();
-        }
-
+        // console.log("############# HANDLE RESIZE");
         this.refreshGrid();
 
         this.throttled = false;
@@ -555,9 +549,9 @@ class AnimatedProjectList {
       }
     });
     breakpointChanged = this.currentBreakpoint.name !== prevBpName;
-    console.log("*********** WIDTH:" + winWidth + ", CURRENT BREAKPOINT: ");
-    console.log(this.currentBreakpoint);
-    console.log("Changed: " + breakpointChanged);
+    // console.log("*********** WIDTH:" + winWidth + ", CURRENT BREAKPOINT: ");
+    // console.log(this.currentBreakpoint);
+    // console.log("Changed: " + breakpointChanged);
     return breakpointChanged;
   }
 
@@ -941,7 +935,7 @@ class AnimatedProjectList {
 // *********************************************************
 // *********************************************************
 // App Initialization
-console.log("Initialzing...");
+console.log("Starting App...");
 var mainApp;
 const baseData = {
   projectTags,
@@ -949,27 +943,27 @@ const baseData = {
 };
 
 if (window.Squarespace) {
-  console.log("Detected Squarespace");
+  console.log("Initializing for Squarespace");
   window.Squarespace.onInitialize(Y, () => {
     // check if we're loading the Home page
     const animatedList = document.getElementById("Animated-Project-List");
     if (!!animatedList) {
       // TODO - refactor the code to be able just call init function if AJAX call is reloading page rather than recreate
       if (mainApp) {
-        console.log("APP ALREADY CREATED");
+        // console.log("APP ALREADY CREATED");
         mainApp = new AnimatedProjectList(projectConfig, baseData);
       } else {
-        console.log("CREATING NEW APP");
+        // console.log("CREATING NEW APP");
         mainApp = new AnimatedProjectList(projectConfig, baseData);
       }
     }
   });
 } else {
-  console.log("No Squarespace detected, normal init");
+  // console.log("No Squarespace detected, normal init");
   mainApp = new AnimatedProjectList(projectConfig, baseData);
 }
 
-console.log("!!!!!!!!!!!!!! APP INITIALIZED");
+console.log("Initialization Complete!");
 
 // UNCOMMENT THE LINE BELOW for Squarespace
 // </script>
