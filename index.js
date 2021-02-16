@@ -289,9 +289,9 @@ class AnimatedProjectList {
     filterButtons.forEach((btn, idx) => {
       btn.addEventListener("click", () => {
         // find the tag that matches the ID on the button that was clicked
-        const tag = getTagForFilterButtonId(btn.id);
+        const tag = this.getTagForFilterButtonId(btn.id);
         this.updateFilterButtonState(btn.id);
-        this.sortProjectsByTag(tag);
+        this.sortProjectsByTag(tag.tag);
       });
     });
 
@@ -314,9 +314,10 @@ class AnimatedProjectList {
    */
   updateFilterButtonState(selectedBtnId) {
     // iterate through buttons and remove selected class
-    Object.keys(this.projectTags).forEach(tag => {
-      const btnEl = document.getElementById(tag);
-      if (tag === selectedBtnId) {
+    this.projectTags.forEach(tag => {
+      const btnId = this.htmlIds.filterBtn + tag.tag;
+      const btnEl = document.getElementById(btnId);
+      if (btnId === selectedBtnId) {
         btnEl.classList.add("selected");
       } else {
         btnEl.classList.remove("selected");
