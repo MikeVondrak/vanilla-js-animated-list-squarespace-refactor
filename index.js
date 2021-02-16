@@ -23,7 +23,7 @@ import * as projectConfig from "./s/Project_Config.json";
 class AnimatedProjectList {
   // categories of projects and associated character "tag" for use in config file
   // populated from /s/Base_Data.json
-  projectTags = {};
+  projectTags = [];
 
   // projects available to be displayed in the list
   // populated from /s/Base_Data.json
@@ -93,6 +93,7 @@ class AnimatedProjectList {
   throttled = false;
   throttleTime = 250;
   currentBreakpoint = this.breakpoints.find(bp => bp.name === "xs");
+  currentProjectView = {};
   displayList = [];
 
   appEl = {};
@@ -179,18 +180,23 @@ class AnimatedProjectList {
    * Perform initial sort to match config in use
    */
   doInitialProjectSort() {
-    const currentProjectView = this.projectConfig.projectViews.find(
+    this.currentProjectView = this.projectConfig.projectViews.find(
       view => view.id === projectsToDisplay
     );
-    if (!currentProjectView) {
+    if (!this.currentProjectView) {
       throw new Error(
         "Could not find project ID: " +
           projectsToDisplay +
           ", make sure the projectsToDisplay variable at the top of this file matches one of the 'id' values from Project_Config.json"
       );
     }
-    currentProjectView.projectOrder.forEach(projectSelector => {
-      console.log(projectSelector);
+
+    // sort the projects by comparing index found in the config projectOrder array
+    this.projectList.sort((a, b) => {
+      return (
+        this.currentProjectView.projectOrder.indexOf(a.selector) -
+        this.currentProjectView.projectOrder.indexOf(b.selector)
+      );
     });
   }
 
@@ -583,6 +589,14 @@ class AnimatedProjectList {
   buildFilterButtons(filterList) {
     let buttons = "";
     let keys = Object.keys(filterList);
+    // sort the project categories according to the current configuration
+    debugger;
+    keys.sort((a, b) => {
+      return (
+        this.currentProjectView.categoryOrder.indexOf(a.tag) -
+        this.currentProjectView.categoryOrder.indexOf(b.tag)
+      );
+    });
     keys.forEach((filter, index) => {
       const btnClass = index === 0 ? "selected" : "";
       const markup = this.generateElement("button", filter, btnClass, filter);

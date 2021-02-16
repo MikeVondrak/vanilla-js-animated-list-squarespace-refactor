@@ -1,12 +1,12 @@
 {
-  "projectTags": {
-    "All": "a",
-    "UX / UI": "u",
-    "Branding": "b",
-    "Illustration": "i",
-    "Pattern": "p",
-    "Books": "k"
-  },
+  "projectTags": [
+    { "All": "a" },
+    { "UX / UI": "u" },
+    { "Branding": "b" },
+    { "Illustration": "i" },
+    { "Pattern": "p" },
+    { "Books": "k" }
+  ],
   "projectList": [
     {
       "selector": "NorthWynkoop",
