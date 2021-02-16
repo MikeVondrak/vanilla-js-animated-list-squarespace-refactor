@@ -2,7 +2,7 @@
 import "./css/squarespace-style.css"; // REMOVE THIS LINE for Squarespace
 import "./css/style.css"; // REMOVE THIS LINE for Squarespace
 
-// import stylesheet to have access to CSS vars
+var data = {};
 
 // *********************************************************
 // Main app class
@@ -271,16 +271,17 @@ class AnimatedProjectList {
    * Load projects data from local JSON file
    */
   loadProjectsData() {
-    fetch("/assets/Projects_Original.json")
-      // .then(res => res.json()) // comment this out for now
-      .then(res => {
-        debugger;
-        return res.text();
-      })
-      .then(text => {
-        debugger;
-        console.log(text);
-      });
+    console.log(data);
+    // fetch("/assets/Projects_Original.json")
+    //   // .then(res => res.json()) // comment this out for now
+    //   .then(res => {
+    //     debugger;
+    //     return res.text();
+    //   })
+    //   .then(text => {
+    //     debugger;
+    //     console.log(text);
+    //   });
   }
 
   /**
