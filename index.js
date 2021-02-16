@@ -4,7 +4,7 @@ import "./css/squarespace-style.css"; // REMOVE THIS LINE for Squarespace
 import "./css/style.css"; // REMOVE THIS LINE for Squarespace
 
 // ===================================================================================================================
-// * EDIT BELOW - Set this to the Project config you want to display
+// * EDIT BELOW - Project Configuration
 // ===================================================================================================================
 
 // Set this to match an "id" of a projectView below - this is what the site will display
