@@ -7,7 +7,8 @@ import "./css/style.css"; // REMOVE THIS LINE for Squarespace
 // * EDIT HERE - Set this to the Project JSON file you want to display
 // *********************************************************
 
-const projectsToDisplay = "UiUx";
+const projectsToDisplay = "Alphabetical";
+//const projectsToDisplay = "UiUx";
 
 // NOTE: Edit Base_Data.json in Squarespace to add or change projects or categories (lower nav)
 
