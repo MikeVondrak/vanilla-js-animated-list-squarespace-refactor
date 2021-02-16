@@ -110,7 +110,7 @@ const projectList = [
   },
   {
     selector: "SpectrumUxUi",
-    title: "Spectrum UX / UI",
+    title: "Spectrum UX&nbsp;/&nbsp;UI",
     url: "/projects/spectrum-ux-ui",
     imgSrc: "tile-spectrum-uxui.png",
     tags: ["a", "b", "u"]
@@ -945,7 +945,7 @@ const baseData = {
   projectTags,
   projectList
 };
-debugger;
+
 if (window.Squarespace) {
   console.log("Detected Squarespace");
   window.Squarespace.onInitialize(Y, () => {
@@ -969,4 +969,5 @@ if (window.Squarespace) {
 
 console.log("!!!!!!!!!!!!!! APP INITIALIZED");
 
-// </script> // UNCOMMENT THIS LINE for Squarespace
+// UNCOMMENT THE LINE BELOW for Squarespace
+// </script>
