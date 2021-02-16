@@ -284,6 +284,7 @@ class AnimatedProjectList {
   // *********************************************************
   // vars
   // *********************************************************
+  debug = false;
   throttled = false;
   throttleTime = 250;
   currentBreakpoint = this.breakpoints.find(bp => bp.name === "xs");
@@ -361,9 +362,9 @@ class AnimatedProjectList {
    * Load projects data from local JSON file
    */
   loadProjectsData(projectConfig, projectData) {
-    console.log("LOADING PROJECT DATA: ");
-    console.log(projectData);
-    console.log(projectConfig);
+    this.log("Loading Project Data: ");
+    this.log(projectData);
+    this.log(projectConfig);
     this.projectList = projectData.projectList;
     this.projectTags = projectData.projectTags;
     this.projectConfig = projectConfig;
@@ -383,6 +384,7 @@ class AnimatedProjectList {
           ", make sure the projectsToDisplay variable at the top of this file matches one of the 'id' values from Project_Config.json"
       );
     }
+    this.log("Current View: " + this.currentProjectView.id);
 
     // sort the projects by comparing index found in the config projectOrder array
     this.projectList.sort((a, b) => {
@@ -421,7 +423,7 @@ class AnimatedProjectList {
    */
   verifyRequirements(appEl, list, tags) {
     if (!appEl) {
-      console.log("Error: could not find element with ID #" + this.htmlIds.app);
+      this.log("Error: could not find element with ID #" + this.htmlIds.app);
       return false;
     }
     if (!list || list.length === 0) {
@@ -524,7 +526,7 @@ class AnimatedProjectList {
     if (!this.throttled) {
       this.throttled = true;
       setTimeout(() => {
-        // console.log("############# HANDLE RESIZE");
+        this.log("Handle Window Resize");
         this.refreshGrid();
 
         this.throttled = false;
@@ -536,7 +538,7 @@ class AnimatedProjectList {
    * Set breakpoint for current screen width and return true if changed
    */
   calcBreakpoint() {
-    console.log("calc bp start:", this.currentBreakpoint);
+    this.log("Starting Breakpoint:", this.currentBreakpoint);
     let breakpointChanged = false;
     const winWidth = window.innerWidth;
     if (!this.breakpoints || !Array.isArray(this.breakpoints)) {
@@ -549,9 +551,11 @@ class AnimatedProjectList {
       }
     });
     breakpointChanged = this.currentBreakpoint.name !== prevBpName;
-    // console.log("*********** WIDTH:" + winWidth + ", CURRENT BREAKPOINT: ");
-    // console.log(this.currentBreakpoint);
-    // console.log("Changed: " + breakpointChanged);
+    this.log("Window innerWidth:" + winWidth);
+    this.log("Breakpoint Changed: " + breakpointChanged);
+    if (breakpointChanged) {
+      this.log(this.currentBreakpoint);
+    }
     return breakpointChanged;
   }
 
@@ -928,6 +932,12 @@ class AnimatedProjectList {
     markup += content !== "" ? content : "";
     markup += addCloseTag && !selfClosing ? "</" + tag + ">" : "";
     return markup;
+  }
+
+  log(message) {
+    if (this.debugOutput) {
+      console.log(message);
+    }
   }
 }
 
