@@ -28,8 +28,8 @@ const projectConfig = {
   projectViews: [
     {
       // You will need to add any new categories or projects to all of the definitions below for them to show up
-      // - Put the ID of the project view you want to display in the "projectsToDisplay" variable above
       // - You will need to make up an ID for any new projects you add, the strings just have to match
+      // - Put the ID of the project view you want to display in the "projectsToDisplay" variable above
 
       // Alphabetical category and project order - for example
       id: "Alphabetical",
