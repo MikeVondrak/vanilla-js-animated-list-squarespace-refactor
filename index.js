@@ -1,7 +1,7 @@
 // import stylesheet to have access to CSS vars
 import "./css/squarespace-style.css"; // REMOVE THIS LINE for Squarespace
 import "./css/style.css"; // REMOVE THIS LINE for Squarespace
-  
+
 // import stylesheet to have access to CSS vars
 
 // *********************************************************
@@ -242,6 +242,9 @@ class AnimatedProjectList {
    * First-time creation and init logic
    */
   initialize() {
+    // load projects from JSON files uploaded to Squarespace
+    this.loadProjectsData();
+
     // get configuration settings from custom CSS we added to Squarespace
     this.populateCssVariables();
 
@@ -264,6 +267,22 @@ class AnimatedProjectList {
     // attach event handlers for filter buttons and window resize
     this.addEventHandlers();
   }
+  /**
+   * Load projects data from local JSON file
+   */
+  loadProjectsData() {
+    fetch("/assets/Projects_Original.json")
+      // .then(res => res.json()) // comment this out for now
+      .then(res => {
+        debugger;
+        return res.text();
+      })
+      .then(text => {
+        debugger;
+        console.log(text);
+      });
+  }
+
   /**
    * Get CSS variables defined in body of custom CSS in Squarespace
    */
