@@ -1,5 +1,8 @@
 // <script type="text/javascript"> // UNCOMMENT THIS LINE for Squarespace
 
+import "./css/squarespace-style.css"; // REMOVE THIS LINE for Squarespace
+import "./css/style.css"; // REMOVE THIS LINE for Squarespace
+
 /* MIT License Copyright (c) 2021 Mike Vondrak
 
   Permission is hereby granted, free
@@ -23,15 +26,12 @@
   THE SOFTWARE. 
 */
 
-import "./css/squarespace-style.css"; // REMOVE THIS LINE for Squarespace
-import "./css/style.css"; // REMOVE THIS LINE for Squarespace
-
 // ===================================================================================================================
 // * EDIT BELOW - Project Configuration
 // ===================================================================================================================
 
 // Set this to match an "id" of a projectView below - this is what the site will display
-const projectsToDisplay = "Alphabetical"; // Only one of these should be active
+const projectsToDisplay = "UxUi"; // Only one of these should be active
 //const projectsToDisplay = "UxUi"; // Comment out the rest like this
 
 // Add new project views here - controls order of category buttons and order of project items
@@ -80,21 +80,21 @@ const projectConfig = {
       id: "UxUi",
       categoryOrder: ["a", "u", "i", "b", "p", "k"],
       projectOrder: [
-        "WynkoopAlley",
-        "TheDailyVegan",
-        "SpectrumUxUi",
-        "SpectrumIllustrationRebrand",
-        "NorthWynkoop",
-        "Nod",
-        "KnottyTieRebrand",
         "KnottyTieConfigurator",
-        "HomeRemedy",
-        "HappyBikes",
-        "Guava",
-        "EatItUp",
+        "NorthWynkoop",
         "Conci",
+        "SpectrumUxUi",
+        "KnottyTieRebrand",
+        "SpectrumIllustrationRebrand",
+        "Nod",
+        "WynkoopAlley",
         "CohesionBrewing",
-        "ACuriousHarvest"
+        "Guava",
+        "HappyBikes",
+        "ACuriousHarvest",
+        "HomeRemedy",
+        "EatItUp",
+        "TheDailyVegan"
       ]
     }
   ]
@@ -116,7 +116,7 @@ const projectList = [
     selector: "NorthWynkoop",
     title: "North Wynkoop",
     url: "/projects/north-wynkoop",
-    imgSrc: "tile-north-wynkoop.jpg",
+    imgSrc: "tile-north-wynkoop-uxui.png",
     tags: ["a", "b", "u", "p"]
   },
   {
@@ -130,7 +130,7 @@ const projectList = [
     selector: "KnottyTieRebrand",
     title: "Knotty Tie Rebrand",
     url: "/projects/knotty-tie-rebrand",
-    imgSrc: "tile-knotty-tie-rebrand.png",
+    imgSrc: "tile-knotty-tie-rebrand-uxui.png",
     tags: ["a", "b", "i", "u"]
   },
   {
@@ -1000,4 +1000,4 @@ if (window.Squarespace) {
 console.log("Initialization Complete!");
 
 // UNCOMMENT THE LINE BELOW for Squarespace
-// </script>
+//</script>
