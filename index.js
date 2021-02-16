@@ -13,10 +13,8 @@ const projectsToDisplay = "Alphabetical";
 
 // Add new project views here - controls order of category buttons and order of project items
 const projectConfig = {
-  __info1: "<-- Use __yourName like this as a comment field",
-  __info2: "Validate your JSON: https://jsonformatter.org/",
-  __info3:
-    "Below are the project selectors from Base_Data.json (you can update this if you add new projects, this is just for your reference)",
+  // Below are the project selectors from the "projectList" below
+  // You can update these when you add new projects, this is just for your reference
   __project_selectors:
     "ACuriousHarvest CohesionBrewing Conci EatItUp Guava HappyBikes HomeRemedy KnottyTieConfigurator KnottyTieRebrand Nod NorthWynkoop SpectrumIllustrationRebrand SpectrumUxUi TheDailyVegan WynkoopAlley",
   __category_selectors:
