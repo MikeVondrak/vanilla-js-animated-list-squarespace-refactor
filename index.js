@@ -21,14 +21,17 @@ import * as projectConfig from "./s/Project_Config.json";
 // *********************************************************
 // Main app class
 class AnimatedProjectList {
-  
   // categories of projects and associated character "tag" for use in config file
   // populated from /s/Base_Data.json
   projectTags = {};
 
-  // projects that will be displayed in the list
+  // projects available to be displayed in the list
   // populated from /s/Base_Data.json
   projectList = [];
+
+  // project display configurations
+  // populated from /s/Project_Config.json
+  projectConfig = {};
 
   // *********************************************************
   // Site Configuration
@@ -123,16 +126,8 @@ class AnimatedProjectList {
    */
   constructor() {
     this.initialize();
-
     this.calcBreakpoint();
-
     this.refreshGrid();
-
-    // adjust height of list container
-    //this.updateListHeight();
-
-    //this.sortProjectsByTag("a");
-    //this.handleResize();
   }
 
   /**
@@ -141,6 +136,9 @@ class AnimatedProjectList {
   initialize() {
     // load projects from JSON files uploaded to Squarespace
     this.loadProjectsData();
+
+    // sort the projects according to the config defined by projectsToDisplay var
+    this.doInitialProjectSort();
 
     // get configuration settings from custom CSS we added to Squarespace
     this.populateCssVariables();
@@ -170,9 +168,30 @@ class AnimatedProjectList {
   loadProjectsData() {
     console.log("LOADING PROJECT DATA: ");
     console.log(projectData);
+    console.log(projectConfig);
+    this.projectList = projectData.projectList;
+    this.projectTags = projectData.projectTags;
+    this.projectConfig = projectConfig.projectConfig;
     debugger;
-    this.projectList = projectData.default.projectList;
-    this.projectTags = projectData.default.projectTags;
+  }
+
+  /**
+   * Perform initial sort to match config in use
+   */
+  doInitialProjectSort() {
+    const currentProjectView = this.projectConfig.projectViews.find(
+      view => view.id === projectsToDisplay
+    );
+    if (!currentProjectView) {
+      throw new Error(
+        "Could not find project ID: " +
+          projectsToDisplay +
+          ", make sure the projectsToDisplay variable at the top of this file matches one of the 'id' values from Project_Config.json"
+      );
+    }
+    currentProjectView.projectOrder.forEach(projectSelector => {
+      console.log(projectSelector);
+    });
   }
 
   /**
