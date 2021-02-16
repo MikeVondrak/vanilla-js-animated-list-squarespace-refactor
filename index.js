@@ -945,7 +945,7 @@ class AnimatedProjectList {
 // *********************************************************
 // *********************************************************
 // App Initialization
-console.log("Starting App...");
+console.log("Creating Animated List...");
 var mainApp;
 const baseData = {
   projectTags,
@@ -969,7 +969,7 @@ if (window.Squarespace) {
     }
   });
 } else {
-  // console.log("No Squarespace detected, normal init");
+  console.log("Squarespace not detected");
   mainApp = new AnimatedProjectList(projectConfig, baseData);
 }
 
