@@ -7,32 +7,27 @@ import "./css/style.css"; // REMOVE THIS LINE for Squarespace
 // * EDIT HERE - Set this to the Project JSON file you want to display
 // *********************************************************
 
-import * as projectData from "./s/Base_Data.json";
-//import * as projectData from "./s/Projects_UX-UI.json";
+const projectsToDisplay = "Alphabetical";
+
+// NOTE: Edit Base_Data.json in Squarespace to add or change projects or categories (lower nav)
 
 // *********************************************************
 // End Configuration - DO NOT EDIT BELOW HERE
 // *********************************************************
 
-// *********************************************************
-// NOTE: Edit Categories.json in Squarespace to change the Project Categories
-import * as projectCategories from "./s/Categories.json";
+import * as projectData from "./s/Base_Data.json";
+import * as projectConfig from "./s/Project_Config.json";
 
 // *********************************************************
 // Main app class
 class AnimatedProjectList {
-  projectTags = {
-    // All: "a",
-    // "UX / UI": "u",
-    // Branding: "b",
-    // Illustration: "i",
-    // Pattern: "p",
-    // Books: "k"
-  };
+  
+  // categories of projects and associated character "tag" for use in config file
+  // populated from /s/Base_Data.json
+  projectTags = {};
 
-  // define the projects that will be displayed in the list
-  // NOTE: ALWAYS include the "a" tag for ALL
-  // NOTE: now pulled from /s/ JSON files
+  // projects that will be displayed in the list
+  // populated from /s/Base_Data.json
   projectList = [];
 
   // *********************************************************

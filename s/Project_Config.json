@@ -1,0 +1,62 @@
+{
+  "projectConfig": {
+    "__info1": "<-- Use __yourName like this as a comment field",
+    "__info2": "Validate your JSON: https://jsonformatter.org/",
+    "__info3": "Below are the project selectors from Base_Data.json (you can update this if you add new projects, this is just for your reference)",
+    "__project_selectors": "ACuriousHarvest CohesionBrewing Conci EatItUp Guava HappyBikes HomeRemedy KnottyTieConfigurator KnottyTieRebrand Nod NorthWynkoop SpectrumIllustrationRebrand SpectrumUxUi TheDailyVegan WynkoopAlley",
+    "__category_selectors": "a u b i p k = All, UX / UI, Branding, Illustration, Pattern, Books",
+    "projectViews": [
+      {
+        "__notes": "Original project order",
+        "__notes2": "You will need to add any new categories or projects to all of the definitions below for them to show up",
+        "__notes3": "Put the ID of the project order you want to display in the 'projectsToDisplay' variable in the code",
+        "__notes4": "(you will need to make up an ID for any new projects you add, the strings just have to match)",
+        "id": "Alphabetical",
+        "categoryOrder": [
+          "a", "b", "i", "k", "p", "u"
+        ],
+        "projectOrder": [
+          "ACuriousHarvest", 
+          "CohesionBrewing", 
+          "Conci", 
+          "EatItUp", 
+          "Guava", 
+          "HappyBikes", 
+          "HomeRemedy", 
+          "KnottyTieConfigurator", 
+          "KnottyTieRebrand", 
+          "Nod", 
+          "NorthWynkoop", 
+          "SpectrumIllustrationRebrand", 
+          "SpectrumUxUi", 
+          "TheDailyVegan", 
+          "WynkoopAlley"
+        ]
+      },
+      {
+        "__notes": "UX / UI, Illustration",
+        "id": "UiUx",
+        "categoryOrder": [
+          "a", "u", "i", "b", "p", "k"
+        ],
+        "projectOrder": [
+          "ACuriousHarvest", 
+          "CohesionBrewing", 
+          "Conci", 
+          "EatItUp", 
+          "Guava", 
+          "HappyBikes", 
+          "HomeRemedy", 
+          "KnottyTieConfigurator", 
+          "KnottyTieRebrand", 
+          "Nod", 
+          "NorthWynkoop", 
+          "SpectrumIllustrationRebrand", 
+          "SpectrumUxUi", 
+          "TheDailyVegan", 
+          "WynkoopAlley"
+        ]
+      }
+    ]
+  }
+}
