@@ -7,9 +7,9 @@ import "./css/style.css"; // REMOVE THIS LINE for Squarespace
 // * EDIT BELOW - Set this to the Project config you want to display
 // ===================================================================================================================
 
-// Set this to match an "id" of a projectView - this is what the site will display
-const projectsToDisplay = "Alphabetical";
-//const projectsToDisplay = "UiUx";
+// Set this to match an "id" of a projectView below - this is what the site will display
+const projectsToDisplay = "Alphabetical"; // Only one of these should be active
+//const projectsToDisplay = "UxUi"; // Comment out the rest like this
 
 // Add new project views here - controls order of category buttons and order of project items
 const projectConfig = {
@@ -25,11 +25,11 @@ const projectConfig = {
 
   projectViews: [
     {
-      // You will need to add any new categories or projects to all of the definitions below for them to show up",
-      // Put the ID of the project order you want to display in the 'projectsToDisplay' variable in the code",
-      // (you will need to make up an ID for any new projects you add, the strings just have to match)
+      // You will need to add any new categories or projects to all of the definitions below for them to show up
+      // - Put the ID of the project view you want to display in the "projectsToDisplay" variable above
+      // - You will need to make up an ID for any new projects you add, the strings just have to match
 
-      // Original project order
+      // Alphabetical category and project order - for example
       id: "Alphabetical",
       categoryOrder: ["a", "k", "b", "i", "p", "u"],
       projectOrder: [
@@ -51,8 +51,8 @@ const projectConfig = {
       ]
     },
     {
-      __notes: "UX / UI, Illustration",
-      id: "UiUx",
+      // UX/UI - these are reverse alphabetical, you can change the order
+      id: "UxUi",
       categoryOrder: ["a", "u", "i", "b", "p", "k"],
       projectOrder: [
         "WynkoopAlley",
