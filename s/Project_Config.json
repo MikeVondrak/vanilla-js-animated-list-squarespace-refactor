@@ -13,7 +13,7 @@
         "__notes4": "(you will need to make up an ID for any new projects you add, the strings just have to match)",
         "id": "Alphabetical",
         "categoryOrder": [
-          "a", "b", "k", "i", "p", "u"
+          "a", "k", "b", "i", "p", "u"
         ],
         "projectOrder": [
           "ACuriousHarvest", 
@@ -40,21 +40,21 @@
           "a", "u", "i", "b", "p", "k"
         ],
         "projectOrder": [
-          "ACuriousHarvest", 
-          "CohesionBrewing", 
-          "Conci", 
-          "EatItUp", 
-          "Guava", 
-          "HappyBikes", 
-          "HomeRemedy", 
-          "KnottyTieConfigurator", 
-          "KnottyTieRebrand", 
-          "Nod", 
-          "NorthWynkoop", 
-          "SpectrumIllustrationRebrand", 
-          "SpectrumUxUi", 
+          "WynkoopAlley",
           "TheDailyVegan", 
-          "WynkoopAlley"
+          "SpectrumUxUi", 
+          "SpectrumIllustrationRebrand", 
+          "NorthWynkoop", 
+          "Nod", 
+          "KnottyTieRebrand", 
+          "KnottyTieConfigurator", 
+          "HomeRemedy", 
+          "HappyBikes", 
+          "Guava", 
+          "EatItUp", 
+          "Conci", 
+          "CohesionBrewing", 
+          "ACuriousHarvest"
         ]
       }
     ]
