@@ -13,7 +13,7 @@
         "__notes4": "(you will need to make up an ID for any new projects you add, the strings just have to match)",
         "id": "Alphabetical",
         "categoryOrder": [
-          "a", "b", "i", "k", "p", "u"
+          "a", "b", "k", "i", "p", "u"
         ],
         "projectOrder": [
           "ACuriousHarvest", 

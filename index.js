@@ -174,7 +174,6 @@ class AnimatedProjectList {
     this.projectList = projectData.projectList;
     this.projectTags = projectData.projectTags;
     this.projectConfig = projectConfig.projectConfig;
-    debugger;
   }
 
   /**
@@ -601,7 +600,6 @@ class AnimatedProjectList {
     let buttons = "";
 
     // sort the project categories according to the current configuration
-    debugger;
     filterList.sort((a, b) => {
       return (
         this.currentProjectView.categoryOrder.indexOf(a.tag) -
