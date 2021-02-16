@@ -3,6 +3,22 @@ main.site-page {
   width: 100%;
   max-width: 100%;
 }
+
+/* Centering Form Submission Text */
+#yui_3_17_2_1_1613341581131_580 {
+  text-align: center;
+}
+
+/* Font Size Form Submission Text */
+#yui_3_17_2_1_1613341581131_580 p {
+  font-size: 1.5rem;
+}
+
+/* Line Height Top Right Nav*/
+nav.site-navigation div.nav-item {
+  line-height: 1.5;
+}
+
 /* right-align menu so long item names aren't off the page */
 body .nav-wrapper .folder .subnav {
   left: -12.5em !important;
@@ -15,6 +31,15 @@ body .nav-wrapper .folder .subnav {
 .index-item-title {
   max-width: 100%;
 }
+
+/* in order to center the hover text with flexbox we need to not use the bg Squarespace applies */
+.index-item-title-background .index-item-title .index-item-title-text {
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+}
+
 /* end Squarespace overrides */
 
 * {
@@ -97,7 +122,7 @@ body {
 }
 @media screen and (min-width: 1280px) {
   #List-Filters button {
-    font-size: 1.5vw;
+    font-size: 1.25vw;
   }
 }
 
@@ -109,7 +134,8 @@ body {
 
   text-transform: uppercase;
   transition: background-color 0.25s ease;
-  font-family: Poppins;
+  font-family: poppins;
+  font-weight: 300;
 }
 #Animated-Project-List button:hover {
   color: var(--color-orange);
@@ -120,8 +146,7 @@ body {
 }
 #Animated-Project-List button:focus {
   border: none;
-  outline: 1px dashed var(--color-orange);
-  outline-offset: -2px;
+  text-decoration: underline;
 }
 #Animated-Project-List button.selected {
   color: var(--color-orange);
@@ -160,27 +185,31 @@ body {
 
 .animated-list-item a {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   width: 100%;
   height: 100%;
   transition: background-color var(--animation-time) ease;
 }
-.animated-list-item a:hover {
-  /* background-color: rgba(0, 0, 0, 0.75); */
-}
-.animated-list-item a > * {
-  display: inline-flex;
-  margin: 1rem;
-  padding: 0.5rem 0.5rem 1rem 0.5rem;
+.animated-list-item.index-item-title a > div {
+  display: block;
+  padding: 1rem !important;
   opacity: 0;
-  font-size: 4vw;
-  line-height: 1.1;
-  /* background: rgba(255, 255, 255, 0.85); /* don't use for Squarespace */
 
   transition: opacity var(--animation-time) ease;
 }
-.animated-list-item a:hover > * {
+.animated-list-item.index-item-title a > div > span {
+  font-size: 4vw;
+  padding: 0 0.5rem;
+  line-height: 1;
+  background-color: #fff;
+}
+
+.animated-list-item a:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.animated-list-item a:hover > div {
   opacity: 1;
 }
 

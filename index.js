@@ -1,6 +1,8 @@
 // import stylesheet to have access to CSS vars
 import "./css/squarespace-style.css"; // REMOVE THIS LINE for Squarespace
 import "./css/style.css"; // REMOVE THIS LINE for Squarespace
+  
+// import stylesheet to have access to CSS vars
 
 // *********************************************************
 // Main app class
@@ -10,9 +12,9 @@ class AnimatedProjectList {
   // *********************************************************
   projectTags = {
     All: "a",
+    "UX/UI": "u",
     Branding: "b",
     Illustration: "i",
-    "UX/UI": "u",
     Pattern: "p",
     Books: "k"
   };
@@ -20,6 +22,41 @@ class AnimatedProjectList {
   // define the projects that will be displayed in the list
   // NOTE: ALWAYS include the "a" tag for ALL
   projectList = [
+    {
+      selector: "NorthWynkoop",
+      title: "North Wynkoop",
+      url: "/projects/north-wynkoop",
+      imgSrc: "tile-north-wynkoop.jpg",
+      tags: ["a", "b", "u", "p"]
+    },
+    {
+      selector: "KnottyTieConfigurator",
+      title: "Knotty Tie Configurator",
+      url: "/projects/knotty-tie-configurator",
+      imgSrc: "tile-knotty-tie-configurator.jpg",
+      tags: ["a", "u"]
+    },
+    {
+      selector: "KnottyTieRebrand",
+      title: "Knotty Tie Rebrand",
+      url: "/projects/knotty-tie-rebrand",
+      imgSrc: "tile-knotty-tie-rebrand.png",
+      tags: ["a", "b", "i", "u"]
+    },
+    {
+      selector: "SpectrumUxUi",
+      title: "Spectrum UX / UI",
+      url: "/projects/spectrum-ux-ui",
+      imgSrc: "tile-spectrum-uxui.png",
+      tags: ["a", "b", "u"]
+    },
+    {
+      selector: "Conci",
+      title: "Conci",
+      url: "/projects/conci",
+      imgSrc: "tile-conci.png",
+      tags: ["a", "u"]
+    },
     {
       selector: "WynkoopAlley",
       title: "Wynkoop Alley",
@@ -33,13 +70,6 @@ class AnimatedProjectList {
       url: "/projects/cohesion-brewing",
       imgSrc: "tile-cohesion-brewing.gif",
       tags: ["a", "b", "p"]
-    },
-    {
-      selector: "NorthWynkoop",
-      title: "North Wynkoop",
-      url: "/projects/north-wynkoop",
-      imgSrc: "tile-north-wynkoop.jpg",
-      tags: ["a", "b", "u", "p"]
     },
     {
       selector: "Guava",
@@ -63,25 +93,11 @@ class AnimatedProjectList {
       tags: ["a", "i", "p"]
     },
     {
-      selector: "KnottyTieConfigurator",
-      title: "Knotty Tie Configurator",
-      url: "/projects/knotty-tie-configurator",
-      imgSrc: "tile-knotty-tie-configurator.jpg",
-      tags: ["a", "u"]
-    },
-    {
       selector: "EatItUp",
       title: "Eat it Up!",
       url: "/projects/eat-it-up",
-      imgSrc: "tile-eat-it-up.jpg",
+      imgSrc: "tile-eat-it-up.png",
       tags: ["a", "i", "k"]
-    },
-    {
-      selector: "KnottyTieRebrand",
-      title: "Knotty Tie Rebrand",
-      url: "/projects/knotty-tie-rebrand",
-      imgSrc: "tile-knotty-tie-rebrand.jpg",
-      tags: ["a", "b", "i", "u"]
     },
     {
       selector: "SpectrumIllustrationRebrand",
@@ -91,17 +107,10 @@ class AnimatedProjectList {
       tags: ["a", "b", "i"]
     },
     {
-      selector: "SpectrumUxUi",
-      title: "Spectrum UX / UI",
-      url: "/projects/spectrum-ux-ui",
-      imgSrc: "tile-spectrum-ux-ui.jpg",
-      tags: ["a", "b", "u"]
-    },
-    {
       selector: "ACuriousHarvest",
       title: "A Curious Harvest",
       url: "/projects/a-curious-harvest",
-      imgSrc: "tile-a-curious-harvest.jpg",
+      imgSrc: "tile-a-curious-harvest.png",
       tags: ["a", "k", "i"]
     },
     {
@@ -117,13 +126,6 @@ class AnimatedProjectList {
       url: "/projects/the-daily-vegan",
       imgSrc: "tile-the-daily-vegan.gif",
       tags: ["a", "k", "i"]
-    },
-    {
-      selector: "Conci",
-      title: "Conci",
-      url: "/projects/conci",
-      imgSrc: "tile-the-daily-vegan.gif",
-      tags: ["a", "u"]
     }
   ];
 
@@ -707,10 +709,16 @@ class AnimatedProjectList {
    */
   buildListItem(project, cssClass, tagSpan) {
     let markup = this.generateElement(
+      "span",
+      undefined,
+      undefined,
+      project.title
+    );
+    markup = this.generateElement(
       "div",
       undefined,
       this.cssClasses.title + " " + this.cssClasses.sqSpItemHoverText,
-      project.title
+      markup
     );
     markup = this.generateElement(
       "a",
