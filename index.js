@@ -550,6 +550,7 @@ class AnimatedProjectList {
       this.throttled = true;
       setTimeout(() => {
         this.log("Handle Window Resize");
+        this.calcBreakpoint();
         this.refreshGrid();
 
         this.throttled = false;
