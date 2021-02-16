@@ -13,16 +13,18 @@ const projectsToDisplay = "Alphabetical"; // Only one of these should be active
 
 // Add new project views here - controls order of category buttons and order of project items
 const projectConfig = {
-  // Below are the project selectors from the "projectList" below
-  // You can update these when you add new projects, this is just for your reference
+  //
+  // These are the project selectors from the "projectList" below
+  // You can update these when you add new projects, this is just for your reference:
+  //
   // ACuriousHarvest CohesionBrewing Conci EatItUp Guava
   // HappyBikes HomeRemedy KnottyTieConfigurator KnottyTieRebrand
   // Nod NorthWynkoop SpectrumIllustrationRebrand SpectrumUxUi
   // TheDailyVegan WynkoopAlley
-
+  //
   // Categoty selectors for reference
   // a u b i p k => All, UX / UI, Branding, Illustration, Pattern, Books
-
+  //
   projectViews: [
     {
       // You will need to add any new categories or projects to all of the definitions below for them to show up
