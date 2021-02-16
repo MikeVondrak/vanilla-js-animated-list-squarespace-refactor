@@ -1,133 +1,39 @@
-// import stylesheet to have access to CSS vars
+// <script type="text/javascript"> // UNCOMMENT THIS LINE for Squarespace
+
 import "./css/squarespace-style.css"; // REMOVE THIS LINE for Squarespace
 import "./css/style.css"; // REMOVE THIS LINE for Squarespace
 
-var data = {};
+// *********************************************************
+// * EDIT HERE - Set this to the Project JSON file you want to display
+// *********************************************************
+
+import * as projectData from "./s/Base_Data.json";
+//import * as projectData from "./s/Projects_UX-UI.json";
+
+// *********************************************************
+// End Configuration - DO NOT EDIT BELOW HERE
+// *********************************************************
+
+// *********************************************************
+// NOTE: Edit Categories.json in Squarespace to change the Project Categories
+import * as projectCategories from "./s/Categories.json";
 
 // *********************************************************
 // Main app class
 class AnimatedProjectList {
-  // *********************************************************
-  // Project Configuration - ENTER YOUR PROJECTS HERE
-  // *********************************************************
   projectTags = {
-    All: "a",
-    "UX/UI": "u",
-    Branding: "b",
-    Illustration: "i",
-    Pattern: "p",
-    Books: "k"
+    // All: "a",
+    // "UX / UI": "u",
+    // Branding: "b",
+    // Illustration: "i",
+    // Pattern: "p",
+    // Books: "k"
   };
 
   // define the projects that will be displayed in the list
   // NOTE: ALWAYS include the "a" tag for ALL
-  projectList = [
-    {
-      selector: "NorthWynkoop",
-      title: "North Wynkoop",
-      url: "/projects/north-wynkoop",
-      imgSrc: "tile-north-wynkoop.jpg",
-      tags: ["a", "b", "u", "p"]
-    },
-    {
-      selector: "KnottyTieConfigurator",
-      title: "Knotty Tie Configurator",
-      url: "/projects/knotty-tie-configurator",
-      imgSrc: "tile-knotty-tie-configurator.jpg",
-      tags: ["a", "u"]
-    },
-    {
-      selector: "KnottyTieRebrand",
-      title: "Knotty Tie Rebrand",
-      url: "/projects/knotty-tie-rebrand",
-      imgSrc: "tile-knotty-tie-rebrand.png",
-      tags: ["a", "b", "i", "u"]
-    },
-    {
-      selector: "SpectrumUxUi",
-      title: "Spectrum UX / UI",
-      url: "/projects/spectrum-ux-ui",
-      imgSrc: "tile-spectrum-uxui.png",
-      tags: ["a", "b", "u"]
-    },
-    {
-      selector: "Conci",
-      title: "Conci",
-      url: "/projects/conci",
-      imgSrc: "tile-conci.png",
-      tags: ["a", "u"]
-    },
-    {
-      selector: "WynkoopAlley",
-      title: "Wynkoop Alley",
-      url: "/projects/wynkoop-alley",
-      imgSrc: "tile-wynkoop-alley.png",
-      tags: ["a", "b", "i", "p"]
-    },
-    {
-      selector: "CohesionBrewing",
-      title: "Cohesion Brewing",
-      url: "/projects/cohesion-brewing",
-      imgSrc: "tile-cohesion-brewing.gif",
-      tags: ["a", "b", "p"]
-    },
-    {
-      selector: "Guava",
-      title: "Guava",
-      url: "/projects/guava",
-      imgSrc: "tile-guava.gif",
-      tags: ["a", "b", "i"]
-    },
-    {
-      selector: "Nod",
-      title: "Nod",
-      url: "/projects/nod",
-      imgSrc: "tile-nod.jpg",
-      tags: ["a", "i", "p"]
-    },
-    {
-      selector: "HappyBikes",
-      title: "Happy Bikes",
-      url: "/projects/happy-bikes",
-      imgSrc: "tile-happy-bikes.jpg",
-      tags: ["a", "i", "p"]
-    },
-    {
-      selector: "EatItUp",
-      title: "Eat it Up!",
-      url: "/projects/eat-it-up",
-      imgSrc: "tile-eat-it-up.png",
-      tags: ["a", "i", "k"]
-    },
-    {
-      selector: "SpectrumIllustrationRebrand",
-      title: "Spectrum Illustration Rebrand",
-      url: "/projects/spectrum-illustration-rebrand",
-      imgSrc: "tile-spectrum-illustration-rebrand.png",
-      tags: ["a", "b", "i"]
-    },
-    {
-      selector: "ACuriousHarvest",
-      title: "A Curious Harvest",
-      url: "/projects/a-curious-harvest",
-      imgSrc: "tile-a-curious-harvest.png",
-      tags: ["a", "k", "i"]
-    },
-    {
-      selector: "HomeRemedy",
-      title: "Home Remedy",
-      url: "/projects/home-remedy",
-      imgSrc: "tile-home-remedy.png",
-      tags: ["a", "i", "k"]
-    },
-    {
-      selector: "TheDailyVegan",
-      title: "The Daily Vegan",
-      url: "/projects/the-daily-vegan",
-      imgSrc: "tile-the-daily-vegan.gif",
-      tags: ["a", "k", "i"]
-    }
-  ];
+  // NOTE: now pulled from /s/ JSON files
+  projectList = [];
 
   // *********************************************************
   // Site Configuration
@@ -142,10 +48,6 @@ class AnimatedProjectList {
     { name: "xxxl", size: 1440, cols: 3 },
     { name: "hd", size: 1920, cols: 3 }
   ];
-
-  // *********************************************************
-  // End Configuration - DO NOT EDIT BELOW HERE
-  // *********************************************************
 
   imgSrcBaseUrl = "https://blue-helicon-3bfm.squarespace.com/"; // overridden by CSS variable
   imgSrcUrlJoiner = "s/"; // path where Squarespace stores uploaded images
@@ -271,17 +173,11 @@ class AnimatedProjectList {
    * Load projects data from local JSON file
    */
   loadProjectsData() {
-    console.log(data);
-    // fetch("/assets/Projects_Original.json")
-    //   // .then(res => res.json()) // comment this out for now
-    //   .then(res => {
-    //     debugger;
-    //     return res.text();
-    //   })
-    //   .then(text => {
-    //     debugger;
-    //     console.log(text);
-    //   });
+    console.log("LOADING PROJECT DATA: ");
+    console.log(projectData);
+    debugger;
+    this.projectList = projectData.default.projectList;
+    this.projectTags = projectData.default.projectTags;
   }
 
   /**
@@ -832,3 +728,5 @@ if (window.Squarespace) {
 }
 
 console.log("!!!!!!!!!!!!!! APP INITIALIZED");
+
+// </script> // UNCOMMENT THIS LINE for Squarespace
