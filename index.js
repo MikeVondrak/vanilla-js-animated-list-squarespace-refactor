@@ -3,21 +3,211 @@
 import "./css/squarespace-style.css"; // REMOVE THIS LINE for Squarespace
 import "./css/style.css"; // REMOVE THIS LINE for Squarespace
 
-// *********************************************************
-// * EDIT HERE - Set this to the Project JSON file you want to display
-// *********************************************************
+// ===================================================================================================================
+// * EDIT BELOW - Set this to the Project config you want to display
+// ===================================================================================================================
 
+// Set this to match an "id" of a projectView - this is what the site will display
 const projectsToDisplay = "Alphabetical";
 //const projectsToDisplay = "UiUx";
 
-// NOTE: Edit Base_Data.json in Squarespace to add or change projects or categories (lower nav)
+// Add new project views here - controls order of category buttons and order of project items
+const projectConfig = {
+  __info1: "<-- Use __yourName like this as a comment field",
+  __info2: "Validate your JSON: https://jsonformatter.org/",
+  __info3:
+    "Below are the project selectors from Base_Data.json (you can update this if you add new projects, this is just for your reference)",
+  __project_selectors:
+    "ACuriousHarvest CohesionBrewing Conci EatItUp Guava HappyBikes HomeRemedy KnottyTieConfigurator KnottyTieRebrand Nod NorthWynkoop SpectrumIllustrationRebrand SpectrumUxUi TheDailyVegan WynkoopAlley",
+  __category_selectors:
+    "a u b i p k = All, UX / UI, Branding, Illustration, Pattern, Books",
+  projectViews: [
+    {
+      __notes: "Original project order",
+      __notes2:
+        "You will need to add any new categories or projects to all of the definitions below for them to show up",
+      __notes3:
+        "Put the ID of the project order you want to display in the 'projectsToDisplay' variable in the code",
+      __notes4:
+        "(you will need to make up an ID for any new projects you add, the strings just have to match)",
+      id: "Alphabetical",
+      categoryOrder: ["a", "k", "b", "i", "p", "u"],
+      projectOrder: [
+        "ACuriousHarvest",
+        "CohesionBrewing",
+        "Conci",
+        "EatItUp",
+        "Guava",
+        "HappyBikes",
+        "HomeRemedy",
+        "KnottyTieConfigurator",
+        "KnottyTieRebrand",
+        "Nod",
+        "NorthWynkoop",
+        "SpectrumIllustrationRebrand",
+        "SpectrumUxUi",
+        "TheDailyVegan",
+        "WynkoopAlley"
+      ]
+    },
+    {
+      __notes: "UX / UI, Illustration",
+      id: "UiUx",
+      categoryOrder: ["a", "u", "i", "b", "p", "k"],
+      projectOrder: [
+        "WynkoopAlley",
+        "TheDailyVegan",
+        "SpectrumUxUi",
+        "SpectrumIllustrationRebrand",
+        "NorthWynkoop",
+        "Nod",
+        "KnottyTieRebrand",
+        "KnottyTieConfigurator",
+        "HomeRemedy",
+        "HappyBikes",
+        "Guava",
+        "EatItUp",
+        "Conci",
+        "CohesionBrewing",
+        "ACuriousHarvest"
+      ]
+    }
+  ]
+};
 
-// *********************************************************
+// Add new categories here (lower nav)
+const projectTags = [
+  { display: "All", tag: "a" },
+  { display: "UX / UI", tag: "u" },
+  { display: "Branding", tag: "b" },
+  { display: "Illustration", tag: "i" },
+  { display: "Pattern", tag: "p" },
+  { display: "Books", tag: "k" }
+];
+
+// Add new projects here, then add the ID you created for the project to the projectViews above
+const projectList = [
+  {
+    selector: "NorthWynkoop",
+    title: "North Wynkoop",
+    url: "/projects/north-wynkoop",
+    imgSrc: "tile-north-wynkoop.jpg",
+    tags: ["a", "b", "u", "p"]
+  },
+  {
+    selector: "KnottyTieConfigurator",
+    title: "Knotty Tie Configurator",
+    url: "/projects/knotty-tie-configurator",
+    imgSrc: "tile-knotty-tie-configurator.jpg",
+    tags: ["a", "u"]
+  },
+  {
+    selector: "KnottyTieRebrand",
+    title: "Knotty Tie Rebrand",
+    url: "/projects/knotty-tie-rebrand",
+    imgSrc: "tile-knotty-tie-rebrand.png",
+    tags: ["a", "b", "i", "u"]
+  },
+  {
+    selector: "SpectrumUxUi",
+    title: "Spectrum UX / UI",
+    url: "/projects/spectrum-ux-ui",
+    imgSrc: "tile-spectrum-uxui.png",
+    tags: ["a", "b", "u"]
+  },
+  {
+    selector: "Conci",
+    title: "Conci",
+    url: "/projects/conci",
+    imgSrc: "tile-conci.png",
+    tags: ["a", "u"]
+  },
+  {
+    selector: "WynkoopAlley",
+    title: "Wynkoop Alley",
+    url: "/projects/wynkoop-alley",
+    imgSrc: "tile-wynkoop-alley.png",
+    tags: ["a", "b", "i", "p"]
+  },
+  {
+    selector: "CohesionBrewing",
+    title: "Cohesion Brewing",
+    url: "/projects/cohesion-brewing",
+    imgSrc: "tile-cohesion-brewing.gif",
+    tags: ["a", "b", "p"]
+  },
+  {
+    selector: "Guava",
+    title: "Guava",
+    url: "/projects/guava",
+    imgSrc: "tile-guava.gif",
+    tags: ["a", "b", "i"]
+  },
+  {
+    selector: "Nod",
+    title: "Nod",
+    url: "/projects/nod",
+    imgSrc: "tile-nod.jpg",
+    tags: ["a", "i", "p"]
+  },
+  {
+    selector: "HappyBikes",
+    title: "Happy Bikes",
+    url: "/projects/happy-bikes",
+    imgSrc: "tile-happy-bikes.jpg",
+    tags: ["a", "i", "p"]
+  },
+  {
+    selector: "EatItUp",
+    title: "Eat it Up!",
+    url: "/projects/eat-it-up",
+    imgSrc: "tile-eat-it-up.png",
+    tags: ["a", "i", "k"]
+  },
+  {
+    selector: "SpectrumIllustrationRebrand",
+    title: "Spectrum Illustration Rebrand",
+    url: "/projects/spectrum-illustration-rebrand",
+    imgSrc: "tile-spectrum-illustration-rebrand.png",
+    tags: ["a", "b", "i"]
+  },
+  {
+    selector: "ACuriousHarvest",
+    title: "A Curious Harvest",
+    url: "/projects/a-curious-harvest",
+    imgSrc: "tile-a-curious-harvest.png",
+    tags: ["a", "k", "i"]
+  },
+  {
+    selector: "HomeRemedy",
+    title: "Home Remedy",
+    url: "/projects/home-remedy",
+    imgSrc: "tile-home-remedy.png",
+    tags: ["a", "i", "k"]
+  },
+  {
+    selector: "TheDailyVegan",
+    title: "The Daily Vegan",
+    url: "/projects/the-daily-vegan",
+    imgSrc: "tile-the-daily-vegan.gif",
+    tags: ["a", "k", "i"]
+  }
+];
+
+// ===================================================================================================================
 // End Configuration - DO NOT EDIT BELOW HERE
-// *********************************************************
-
-import * as projectData from "./s/Base_Data.json";
-import * as projectConfig from "./s/Project_Config.json";
+// ===================================================================================================================
+// ===================================================================================================================
+//
+//
+//
+//
+//
+//
+//
+// TODO: CORS and MIME type issues trying to import or fetch JSON, have to hardcode
+//import * as projectData from "./s/Base_Data.json";
+//import * as projectConfig from "./s/Project_Config.json";
 
 // *********************************************************
 // Main app class
@@ -127,8 +317,8 @@ class AnimatedProjectList {
   /**
    * Constructor
    */
-  constructor() {
-    this.initialize();
+  constructor(projectConfig, baseData) {
+    this.initialize(projectConfig, baseData);
     this.calcBreakpoint();
     this.refreshGrid();
   }
@@ -136,9 +326,9 @@ class AnimatedProjectList {
   /**
    * First-time creation and init logic
    */
-  initialize() {
+  initialize(config, data) {
     // load projects from JSON files uploaded to Squarespace
-    this.loadProjectsData();
+    this.loadProjectsData(config, data);
 
     // sort the projects according to the config defined by projectsToDisplay var
     this.doInitialProjectSort();
@@ -168,13 +358,13 @@ class AnimatedProjectList {
   /**
    * Load projects data from local JSON file
    */
-  loadProjectsData() {
+  loadProjectsData(projectConfig, projectData) {
     console.log("LOADING PROJECT DATA: ");
     console.log(projectData);
     console.log(projectConfig);
     this.projectList = projectData.projectList;
     this.projectTags = projectData.projectTags;
-    this.projectConfig = projectConfig.projectConfig;
+    this.projectConfig = projectConfig;
   }
 
   /**
@@ -751,7 +941,11 @@ class AnimatedProjectList {
 // App Initialization
 console.log("Initialzing...");
 var mainApp;
-
+const baseData = {
+  projectTags,
+  projectList
+};
+debugger;
 if (window.Squarespace) {
   console.log("Detected Squarespace");
   window.Squarespace.onInitialize(Y, () => {
@@ -761,16 +955,16 @@ if (window.Squarespace) {
       // TODO - refactor the code to be able just call init function if AJAX call is reloading page rather than recreate
       if (mainApp) {
         console.log("APP ALREADY CREATED");
-        mainApp = new AnimatedProjectList();
+        mainApp = new AnimatedProjectList(projectConfig, baseData);
       } else {
         console.log("CREATING NEW APP");
-        mainApp = new AnimatedProjectList();
+        mainApp = new AnimatedProjectList(projectConfig, baseData);
       }
     }
   });
 } else {
   console.log("No Squarespace detected, normal init");
-  mainApp = new AnimatedProjectList();
+  mainApp = new AnimatedProjectList(projectConfig, baseData);
 }
 
 console.log("!!!!!!!!!!!!!! APP INITIALIZED");
