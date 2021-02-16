@@ -67,7 +67,8 @@ class AnimatedProjectList {
   htmlIds = {
     app: "Animated-Project-List",
     list: "Animated-List",
-    filters: "List-Filters"
+    filters: "List-Filters",
+    filterBtn: "List-Filter-"
   };
   htmlNames = {};
   cssClasses = {
@@ -231,11 +232,11 @@ class AnimatedProjectList {
       console.log("Error: could not find element with ID #" + this.htmlIds.app);
       return false;
     }
-    if (!list) {
+    if (!list || list.length === 0) {
       appEl.innerHTML = "<p>No list data provided</p>";
       return false;
     }
-    if (!tags) {
+    if (!tags || tags.length === 0) {
       appEl.innerHTML = "<p>No filter data provided</p>";
       return false;
     }
@@ -288,10 +289,10 @@ class AnimatedProjectList {
 
     filterButtons.forEach((btn, idx) => {
       btn.addEventListener("click", () => {
-        const tag = Object.keys(this.projectTags).find(key => key === btn.id);
-        const tagId = this.projectTags[tag];
+        // find the tag that matches the ID on the button that was clicked
+        const tag = getTagForFilterButtonId(btn.id);
         this.updateFilterButtonState(btn.id);
-        this.sortProjectsByTag(tagId);
+        this.sortProjectsByTag(tag);
       });
     });
 
@@ -299,6 +300,16 @@ class AnimatedProjectList {
     let resizeFunction = this.handleResize.bind(this);
     window.addEventListener("resize", resizeFunction);
   }
+
+  /**
+   * Get tag for ID
+   */
+  getTagForFilterButtonId(id) {
+    const filterBtnPrefix = this.htmlIds.filterBtn;
+    const tag = this.projectTags.find(pt => filterBtnPrefix + pt.tag === id);
+    return tag;
+  }
+
   /**
    * Add / remove the "selected" class from the active filter button
    */
@@ -588,18 +599,25 @@ class AnimatedProjectList {
    */
   buildFilterButtons(filterList) {
     let buttons = "";
-    let keys = Object.keys(filterList);
+
     // sort the project categories according to the current configuration
     debugger;
-    keys.sort((a, b) => {
+    filterList.sort((a, b) => {
       return (
         this.currentProjectView.categoryOrder.indexOf(a.tag) -
         this.currentProjectView.categoryOrder.indexOf(b.tag)
       );
     });
-    keys.forEach((filter, index) => {
+
+    filterList.forEach((filter, index) => {
+      const btnId = this.htmlIds.filterBtn + filter.tag;
       const btnClass = index === 0 ? "selected" : "";
-      const markup = this.generateElement("button", filter, btnClass, filter);
+      const markup = this.generateElement(
+        "button",
+        btnId,
+        btnClass,
+        filter.display
+      );
       buttons += markup;
     });
     return buttons;

@@ -1,11 +1,11 @@
 {
   "projectTags": [
-    { "All": "a" },
-    { "UX / UI": "u" },
-    { "Branding": "b" },
-    { "Illustration": "i" },
-    { "Pattern": "p" },
-    { "Books": "k" }
+    { "display": "All", "tag": "a" },
+    { "display": "UX / UI", "tag": "u" },
+    { "display": "Branding", "tag": "b" },
+    { "display": "Illustration", "tag": "i" },
+    { "display": "Pattern", "tag": "p" },
+    { "display": "Books", "tag": "k" }
   ],
   "projectList": [
     {
