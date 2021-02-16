@@ -15,19 +15,21 @@ const projectsToDisplay = "Alphabetical";
 const projectConfig = {
   // Below are the project selectors from the "projectList" below
   // You can update these when you add new projects, this is just for your reference
-  __project_selectors:
-    "ACuriousHarvest CohesionBrewing Conci EatItUp Guava HappyBikes HomeRemedy KnottyTieConfigurator KnottyTieRebrand Nod NorthWynkoop SpectrumIllustrationRebrand SpectrumUxUi TheDailyVegan WynkoopAlley",
-  __category_selectors:
-    "a u b i p k = All, UX / UI, Branding, Illustration, Pattern, Books",
+  // ACuriousHarvest CohesionBrewing Conci EatItUp Guava
+  // HappyBikes HomeRemedy KnottyTieConfigurator KnottyTieRebrand
+  // Nod NorthWynkoop SpectrumIllustrationRebrand SpectrumUxUi
+  // TheDailyVegan WynkoopAlley
+
+  // Categoty selectors for reference
+  // a u b i p k => All, UX / UI, Branding, Illustration, Pattern, Books
+
   projectViews: [
     {
-      __notes: "Original project order",
-      __notes2:
-        "You will need to add any new categories or projects to all of the definitions below for them to show up",
-      __notes3:
-        "Put the ID of the project order you want to display in the 'projectsToDisplay' variable in the code",
-      __notes4:
-        "(you will need to make up an ID for any new projects you add, the strings just have to match)",
+      // You will need to add any new categories or projects to all of the definitions below for them to show up",
+      // Put the ID of the project order you want to display in the 'projectsToDisplay' variable in the code",
+      // (you will need to make up an ID for any new projects you add, the strings just have to match)
+
+      // Original project order
       id: "Alphabetical",
       categoryOrder: ["a", "k", "b", "i", "p", "u"],
       projectOrder: [
